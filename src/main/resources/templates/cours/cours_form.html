@@ -18,32 +18,34 @@
         <hr/>
         <div class="row justify-content-center align-items-center h-100">
           <div class="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
-            <form action="#" th:action="@{/eleves}" th:object="${eleve}" method="post">
+            <form action="#" th:action="@{/cours}" th:object="${cours}" method="post">
               <!-- Nom UE  input -->
               <div class="form-group">
                 <input type="text" id="nom_ue" class="form-control" th:field="*{nom_ue}"/>
                 <label class="form-label" for="nom_ue">Nom de la matière</label>
               </div>
-              <!-- Niveau input -->
+              <!-- Niveau input 
               <div class="form-group">
                 <input type="text" id="niveau" class="form-control" th:field="*{niveau}"/>
                 <label class="form-label" for="niveau">Niveau requis</label>
               </div>
-              <!-- Salle input -->
+              -->
+              <!-- Salle input 
               <div class="form-group">
                 <input type="text" id="salle" class="form-control" th:field="*{salle}"/>
                 <label class="form-label" for="salle">Salle</label>
               </div>
+              -->
               <!-- Date début input -->
               <div class="form-group">
-                <input type="number" id="date_debut" class="form-control" th:field="*{debut}"/>
-                <label class="form-label" for="date_debut">Date début</label>
+                <label for="date_debut">Date de début</label>
+                <input type="date" th:field="*{debut}" id="date_debut"/>
               </div>
               
               <!-- Date fin input -->
               <div class="form-group">
-                <input type="text" id="date_fin" class="form-control" th:field="*{fin}"/>
-                <label class="form-label" for="date_fin">Date fin</label>
+                <label for="date_fin">Date de fin</label>
+                <input type="date" th:field="*{fin}" id="date_fin"/>
               </div>
               
               <div class="form-group">

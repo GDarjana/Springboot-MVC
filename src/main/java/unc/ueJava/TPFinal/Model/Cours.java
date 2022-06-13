@@ -2,6 +2,8 @@ package unc.ueJava.TPFinal.Model;
 
 import javax.persistence.Entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,9 +22,11 @@ public class Cours {
     private String nom_ue;
 
     @Column(name = "debut")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date debut;
 
     @Column(name = "fin")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date fin;
 
     @ManyToMany(fetch = FetchType.LAZY)
