@@ -15,7 +15,7 @@ public class Eleve {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int numeroEtudiant;
+    private int numero_etudiant;
 
     @Column(name = "nom")
     private String nom;
@@ -44,12 +44,12 @@ public class Eleve {
         this.adresse = adresse;
     }
 
-    public long getNumeroEtudiant() {
-        return numeroEtudiant;
+    public int getNumero_etudiant() {
+        return numero_etudiant;
     }
 
-    public void setId(int numeroEtudiant) {
-        this.numeroEtudiant = numeroEtudiant;
+    public void setId(int numero_etudiant) {
+        this.numero_etudiant = numero_etudiant;
     }
 
     public String getNom() {

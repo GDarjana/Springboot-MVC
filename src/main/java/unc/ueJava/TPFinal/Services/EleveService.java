@@ -1,5 +1,7 @@
 package unc.ueJava.TPFinal.Services;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,6 +47,13 @@ public class EleveService {
      */
     public void delEleve(int numeroEtudiant) {
         this.eleveRepository.deleteById(numeroEtudiant);
+    }
+
+    /**
+     * Consulte un élève
+     */
+    public Optional<Eleve> getEleve(int numero_etudiant) {
+        return this.eleveRepository.findById(numero_etudiant);
     }
 
 }
