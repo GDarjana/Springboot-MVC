@@ -93,14 +93,46 @@ public class Config {
     }
 
     @Bean
-    public ClassLoaderTemplateResolver secondaryTemplateResolver() {
+    public ClassLoaderTemplateResolver elevesTemplateResolver() {
         ClassLoaderTemplateResolver elevesTemplateResolver = new ClassLoaderTemplateResolver();
         elevesTemplateResolver.setPrefix("templates/eleves/");
         elevesTemplateResolver.setSuffix(".html");
         elevesTemplateResolver.setTemplateMode(TemplateMode.HTML);
         elevesTemplateResolver.setCharacterEncoding("UTF-8");
         elevesTemplateResolver.setCheckExistence(true);
-
         return elevesTemplateResolver;
+    }
+
+    @Bean
+    public ClassLoaderTemplateResolver coursTemplateResolver() {
+        ClassLoaderTemplateResolver coursTemplateResolver = new ClassLoaderTemplateResolver();
+        coursTemplateResolver.setPrefix("templates/cours/");
+        coursTemplateResolver.setSuffix(".html");
+        coursTemplateResolver.setTemplateMode(TemplateMode.HTML);
+        coursTemplateResolver.setCharacterEncoding("UTF-8");
+        coursTemplateResolver.setCheckExistence(true);
+        return coursTemplateResolver;
+    }
+
+    @Bean
+    public ClassLoaderTemplateResolver niveauTemplateResolver() {
+        ClassLoaderTemplateResolver niveauTemplateResolver = new ClassLoaderTemplateResolver();
+        niveauTemplateResolver.setPrefix("templates/niveau/");
+        niveauTemplateResolver.setSuffix(".html");
+        niveauTemplateResolver.setTemplateMode(TemplateMode.HTML);
+        niveauTemplateResolver.setCharacterEncoding("UTF-8");
+        niveauTemplateResolver.setCheckExistence(true);
+        return niveauTemplateResolver;
+    }
+
+    @Bean
+    public ClassLoaderTemplateResolver salleTemplateResolver() {
+        ClassLoaderTemplateResolver salleTemplateResolver = new ClassLoaderTemplateResolver();
+        salleTemplateResolver.setPrefix("templates/salle/");
+        salleTemplateResolver.setSuffix(".html");
+        salleTemplateResolver.setTemplateMode(TemplateMode.HTML);
+        salleTemplateResolver.setCharacterEncoding("UTF-8");
+        salleTemplateResolver.setCheckExistence(true);
+        return salleTemplateResolver;
     }
 }
