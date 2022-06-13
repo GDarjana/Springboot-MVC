@@ -31,7 +31,7 @@ public class ElevesController {
      * 
      * @return
      */
-    @GetMapping("/eleves/ajouter")
+    @GetMapping("/eleves/eleveForm")
     public String ajouterEleve(Model model) {
         Eleve eleve = new Eleve();
         model.addAttribute("eleve", eleve);
