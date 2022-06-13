@@ -2,7 +2,9 @@ package unc.ueJava.TPFinal.Model;
 
 import javax.persistence.Entity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -14,8 +16,8 @@ public class Cours {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @Column(name = "nomUE")
-    private String nomUE;
+    @Column(name = "nom_ue")
+    private String nom_ue;
 
     @Column(name = "debut")
     private Date debut;
@@ -23,21 +25,25 @@ public class Cours {
     @Column(name = "fin")
     private Date fin;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "cours_eleves", joinColumns = @JoinColumn(name = "nom_ue"), inverseJoinColumns = @JoinColumn(name = "numero_etudiant"))
+    private List<Eleve> eleves = new ArrayList<>();
+
     public Cours() {
     }
 
-    public Cours(String nomUE, Date debut, Date fin) {
-        this.nomUE = nomUE;
+    public Cours(String nom_ue, Date debut, Date fin) {
+        this.nom_ue = nom_ue;
         this.debut = debut;
         this.fin = fin;
     }
 
-    public void setNomUE(String nomUE) {
-        this.nomUE = nomUE;
+    public void setNom_ue(String nom_ue) {
+        this.nom_ue = nom_ue;
     }
 
-    public String getNomUE() {
-        return this.nomUE;
+    public String getNom_ue() {
+        return this.nom_ue;
     }
 
     public void setDebut(Date debut) {
@@ -48,11 +54,19 @@ public class Cours {
         return this.debut;
     }
 
-    public void setfin(Date fin) {
+    public void setFin(Date fin) {
         this.fin = fin;
     }
 
-    public Date getfin() {
+    public Date getFin() {
         return this.fin;
+    }
+
+    public void addEleve(Eleve eleve) {
+        this.eleves.add(eleve);
+    }
+
+    public List<Eleve> getEleves() {
+        return this.eleves;
     }
 }
