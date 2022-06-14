@@ -19,4 +19,12 @@ public class Niveau {
     @Enumerated(EnumType.STRING)
     @Column(name = "libelle")
     private LibelleEnum libelle;
+
+    public Niveau() {
+    }
+
+    public Niveau(CodeEnum code, LibelleEnum libelle) {
+
+    }
+
 }
