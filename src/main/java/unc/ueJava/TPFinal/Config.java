@@ -1,9 +1,12 @@
 package unc.ueJava.TPFinal;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.Arrays;
 import java.util.Properties;
 
 import javax.persistence.EntityManagerFactory;
@@ -18,6 +21,11 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
+
+import unc.ueJava.TPFinal.DAO.NiveauRepository;
+import unc.ueJava.TPFinal.Model.Niveau.CodeEnum;
+import unc.ueJava.TPFinal.Model.Niveau.LibelleEnum;
+import unc.ueJava.TPFinal.Model.Niveau.Niveau;
 
 @Configuration
 @EnableTransactionManagement // active le management des transaction
@@ -135,4 +143,17 @@ public class Config {
         salleTemplateResolver.setCheckExistence(true);
         return salleTemplateResolver;
     }
+
+    @Bean
+    public CommandLineRunner loadData(NiveauRepository niveauRepository){
+        return (args) -> {
+
+            Arrays.asList(CodeEnum.values()).forEach(code -> {
+                Arrays.asList(LibelleEnum.values()).forEach(libelle -> 
+                    niveauRepository.save(new Niveau(code, libelle))
+                );
+            });
+        };
+    }
+    
 }
