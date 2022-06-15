@@ -1,5 +1,7 @@
 package unc.ueJava.TPFinal;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +20,11 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
+
+import unc.ueJava.TPFinal.DAO.NiveauRepository;
+import unc.ueJava.TPFinal.Model.Niveau.CodeEnum;
+import unc.ueJava.TPFinal.Model.Niveau.LibelleEnum;
+import unc.ueJava.TPFinal.Model.Niveau.Niveau;
 
 @Configuration
 @EnableTransactionManagement // active le management des transaction
@@ -134,5 +141,26 @@ public class Config {
         salleTemplateResolver.setCharacterEncoding("UTF-8");
         salleTemplateResolver.setCheckExistence(true);
         return salleTemplateResolver;
+    }
+
+    @Bean
+    public CommandLineRunner loadData(NiveauRepository niveauRepository){
+        return (args) -> {
+            niveauRepository.save(new Niveau(CodeEnum.L1, LibelleEnum.INFORMATIQUE));
+            niveauRepository.save(new Niveau(CodeEnum.L2, LibelleEnum.INFORMATIQUE));
+            niveauRepository.save(new Niveau(CodeEnum.L3, LibelleEnum.INFORMATIQUE));
+
+            niveauRepository.save(new Niveau(CodeEnum.L1, LibelleEnum.MATHEMATIQUES));
+            niveauRepository.save(new Niveau(CodeEnum.L2, LibelleEnum.MATHEMATIQUES));
+            niveauRepository.save(new Niveau(CodeEnum.L3, LibelleEnum.MATHEMATIQUES));
+
+            niveauRepository.save(new Niveau(CodeEnum.L1, LibelleEnum.PHYSIQUE_CHIMIE));
+            niveauRepository.save(new Niveau(CodeEnum.L2, LibelleEnum.PHYSIQUE_CHIMIE));
+            niveauRepository.save(new Niveau(CodeEnum.L3, LibelleEnum.PHYSIQUE_CHIMIE));
+
+            niveauRepository.save(new Niveau(CodeEnum.L1, LibelleEnum.SVT));
+            niveauRepository.save(new Niveau(CodeEnum.L2, LibelleEnum.SVT));
+            niveauRepository.save(new Niveau(CodeEnum.L3, LibelleEnum.SVT));
+        };
     }
 }
