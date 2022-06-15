@@ -6,6 +6,8 @@ import javax.persistence.*;
 
 import org.hibernate.annotations.DynamicUpdate;
 
+import unc.ueJava.TPFinal.Model.Niveau.Niveau;
+
 //import unc.ueJava.TPFinal.Model.Niveau.Niveau;
 
 @Entity
@@ -32,16 +34,19 @@ public class Eleve {
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Cours> cours;
 
-    // private Niveau niveau;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "niveau_id", referencedColumnName = "id")
+    private Niveau niveau;
 
     public Eleve() {
     }
 
-    public Eleve(String nom, String prenom, int age, String adresse) {
+    public Eleve(String nom, String prenom, int age, String adresse, Niveau niveau) {
         this.nom = nom;
         this.prenom = prenom;
         this.age = age;
         this.adresse = adresse;
+        this.niveau = niveau;
     }
 
     public int getNumero_etudiant() {
@@ -94,5 +99,13 @@ public class Eleve {
 
     public int getAge() {
         return this.age;
+    }
+
+    public void setNiveau(Niveau niveau){
+        this.niveau = niveau;
+    }
+
+    public Niveau getNiveau(){
+        return this.niveau;
     }
 }

@@ -4,6 +4,9 @@ import javax.persistence.Entity;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import unc.ueJava.TPFinal.Model.Niveau.Niveau;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,7 +26,7 @@ public class Cours {
 
     @Column(name = "date")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date date;
+    private LocalDate date;
 
     @Column(name = "horaire_debut")
     private String horaire_debut;
@@ -41,14 +44,19 @@ public class Cours {
     @JoinTable(name = "cours_eleves", joinColumns = @JoinColumn(name = "nom_ue"), inverseJoinColumns = @JoinColumn(name = "numero_etudiant"))
     private List<Eleve> eleves = new ArrayList<>();
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "niveau_id", referencedColumnName = "id")
+    private Niveau niveau;
+
     public Cours() {
     }
 
-    public Cours(String nom_ue, Date date, String horaire_debut, String horaire_fin) {
+    public Cours(String nom_ue, LocalDate date, String horaire_debut, String horaire_fin, Niveau niveau) {
         this.nom_ue = nom_ue;
         this.date = date;
         this.horaire_debut = horaire_debut;
         this.horaire_fin = horaire_fin;
+        this.niveau = niveau;
     }
 
     public void setNom_ue(String nom_ue) {
@@ -59,11 +67,11 @@ public class Cours {
         return this.nom_ue;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return this.date;
     }
 
@@ -89,6 +97,14 @@ public class Cours {
 
     public List<Eleve> getEleves() {
         return this.eleves;
+    }
+
+    public void setNiveau(Niveau niveau){
+        this.niveau = niveau;
+    }
+
+    public Niveau getNiveau(){
+        return this.niveau;
     }
 
 }

@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head> 
+    <title>Élève</title> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header th:insert="header.html :: header"> </header>
+    <div class="container-fluid h-100 bg-light text-dark">
+        <div class="row justify-content-center align-items-center">
+            <h1>Informations de l'élève</h1>    
+        </div>
+        <div class="row justify-content-center align-items-center h-100">
+            <div class="col col-sm-6 col-md-6 col-lg-4 col-xl-6">
+                <p><b>Numéro étudiant : </b><span th:text="${eleve.getNumero_etudiant}"></span></p>
+                <p><b>Nom : </b><span th:text="${eleve.getNom}"></span></p>
+                <p><b>Prénom :</b> <span th:text="${eleve.getPrenom}"></span></p>
+                <p><b>Adresse :</b> <span th:text="${eleve.getAdresse}"></span></p>
+                <p><b>Cours :</b> 
+                    <table>
+                        <th:block th:each="cours : ${liste_cours}">
+                           <tr>
+                              <strong th:text="${cours.getNom_ue}"></strong>
+                              <td th:text="' Début : ' + ${cours.getDebut} + ' Fin : ' + ${cours.getFin}"></td>
+                           </tr>
+                        </th:block>
+                     </table>
+                </p>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

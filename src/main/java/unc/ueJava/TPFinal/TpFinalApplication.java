@@ -10,8 +10,11 @@ public class TpFinalApplication {
 	public static void main(String[] args) {
 		// Chargement du context applicatif avec la classe de configuration
 		System.out.println("Initialisation du contexte applicatif");
+
 		AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(Config.class);
 		SpringApplication.run(TpFinalApplication.class, args);
+
+		applicationContext.close();
 	}
 
 }
