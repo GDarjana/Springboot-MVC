@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.Arrays;
 import java.util.Properties;
 
 import javax.persistence.EntityManagerFactory;
@@ -146,21 +147,13 @@ public class Config {
     @Bean
     public CommandLineRunner loadData(NiveauRepository niveauRepository){
         return (args) -> {
-            niveauRepository.save(new Niveau(CodeEnum.L1, LibelleEnum.INFORMATIQUE));
-            niveauRepository.save(new Niveau(CodeEnum.L2, LibelleEnum.INFORMATIQUE));
-            niveauRepository.save(new Niveau(CodeEnum.L3, LibelleEnum.INFORMATIQUE));
 
-            niveauRepository.save(new Niveau(CodeEnum.L1, LibelleEnum.MATHEMATIQUES));
-            niveauRepository.save(new Niveau(CodeEnum.L2, LibelleEnum.MATHEMATIQUES));
-            niveauRepository.save(new Niveau(CodeEnum.L3, LibelleEnum.MATHEMATIQUES));
-
-            niveauRepository.save(new Niveau(CodeEnum.L1, LibelleEnum.PHYSIQUE_CHIMIE));
-            niveauRepository.save(new Niveau(CodeEnum.L2, LibelleEnum.PHYSIQUE_CHIMIE));
-            niveauRepository.save(new Niveau(CodeEnum.L3, LibelleEnum.PHYSIQUE_CHIMIE));
-
-            niveauRepository.save(new Niveau(CodeEnum.L1, LibelleEnum.SVT));
-            niveauRepository.save(new Niveau(CodeEnum.L2, LibelleEnum.SVT));
-            niveauRepository.save(new Niveau(CodeEnum.L3, LibelleEnum.SVT));
+            Arrays.asList(CodeEnum.values()).forEach(code -> {
+                Arrays.asList(LibelleEnum.values()).forEach(libelle -> 
+                    niveauRepository.save(new Niveau(code, libelle))
+                );
+            });
         };
     }
+    
 }
