@@ -14,7 +14,7 @@ import org.hibernate.annotations.DynamicUpdate;
 public class Eleve {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int numero_etudiant;
 
     @Column(name = "nom")
