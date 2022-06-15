@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import unc.ueJava.TPFinal.DAO.CoursRepository;
+import unc.ueJava.TPFinal.Model.Eleve;
 
 /**
  * Pour les cours

@@ -21,15 +21,17 @@
     <thead>
         <tr>      
           <th data-field="nom_ue" data-filter-control="input">Nom de l'UE</th>
-          <th data-field="date_debut" data-filter-control="input" >Début</th>
-          <th data-field="date_fin" data-filter-control="input" >Fin</th>
+          <th data-field="date" data-filter-control="input" >Date</th>
+          <th data-field="horaire_debut" data-filter-control="input" >Heure début</th>
+          <th data-field="horaire_fin" data-filter-control="input" >Heure fin</th>
         </tr>
     </thead>
         <tbody>
             <tr th:each="cours :${liste_cours}">
                 <td th:text="${cours.getNom_ue}"></td>
-                <td th:text="${cours.getDebut}"></td>
-                <td th:text="${cours.getDebut}"></td>
+                <td th:text="${cours.getDate}"></td>
+                <td th:text="${cours.getHoraire_debut}"></td>
+                <td th:text="${cours.getHoraire_fin}"></td>
             </tr>
         </tbody>
     </table>

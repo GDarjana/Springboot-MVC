@@ -21,13 +21,21 @@ public class Cours {
     @Column(name = "nom_ue")
     private String nom_ue;
 
-    @Column(name = "debut")
+    @Column(name = "date")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date debut;
+    private Date date;
 
-    @Column(name = "fin")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date fin;
+    @Column(name = "horaire_debut")
+    private String horaire_debut;
+
+    @Column(name = "horaire_fin")
+    private String horaire_fin;
+
+    /**
+     * @ManyToOne(cascade = CascadeType.ALL)
+     * @JoinColumn(name = "salle_code")
+     *                  private Salle salle;
+     */
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "cours_eleves", joinColumns = @JoinColumn(name = "nom_ue"), inverseJoinColumns = @JoinColumn(name = "numero_etudiant"))
@@ -36,10 +44,11 @@ public class Cours {
     public Cours() {
     }
 
-    public Cours(String nom_ue, Date debut, Date fin) {
+    public Cours(String nom_ue, Date date, String horaire_debut, String horaire_fin) {
         this.nom_ue = nom_ue;
-        this.debut = debut;
-        this.fin = fin;
+        this.date = date;
+        this.horaire_debut = horaire_debut;
+        this.horaire_fin = horaire_fin;
     }
 
     public void setNom_ue(String nom_ue) {
@@ -50,20 +59,28 @@ public class Cours {
         return this.nom_ue;
     }
 
-    public void setDebut(Date debut) {
-        this.debut = debut;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
-    public Date getDebut() {
-        return this.debut;
+    public Date getDate() {
+        return this.date;
     }
 
-    public void setFin(Date fin) {
-        this.fin = fin;
+    public void setHoraire_debut(String horaire_debut) {
+        this.horaire_debut = horaire_debut;
     }
 
-    public Date getFin() {
-        return this.fin;
+    public String getHoraire_debut() {
+        return this.horaire_debut;
+    }
+
+    public void setHoraire_fin(String horaire_fin) {
+        this.horaire_fin = horaire_fin;
+    }
+
+    public String getHoraire_fin() {
+        return this.horaire_fin;
     }
 
     public void addEleve(Eleve eleve) {
@@ -73,4 +90,5 @@ public class Cours {
     public List<Eleve> getEleves() {
         return this.eleves;
     }
+
 }
