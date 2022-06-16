@@ -57,7 +57,7 @@ public class Eleve {
         return numeroEtudiant;
     }
 
-    public void setId(int numeroEtudiant) {
+    public void setNumeroEtudiant(int numeroEtudiant) {
         this.numeroEtudiant = numeroEtudiant;
     }
 

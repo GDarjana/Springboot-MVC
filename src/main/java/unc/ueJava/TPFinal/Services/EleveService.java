@@ -38,8 +38,8 @@ public class EleveService {
     /**
      * La création d'un élève
      */
-    public Eleve saveEleve(Eleve eleve) {
-        return this.eleveRepository.save(eleve);
+    public void saveEleve(Eleve eleve) {
+        this.eleveRepository.save(eleve);
     }
 
     /**

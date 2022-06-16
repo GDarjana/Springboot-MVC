@@ -26,9 +26,8 @@
                     <p><b>Numéro étudiant : </b><span th:text="${eleve.getNumeroEtudiant}"></span></p>
                     <!-- Niveau input -->
                     <div class="form-group">
-                        <select id="niveau" class="form-control" th:field="*{niveau}" disabled>
-                            <option th:each="niveau : ${liste_niveaux}" th:value="${niveau.getId}"
-                                th:text="${niveau.toString}">
+                        <select id="niveau" class="form-control" th:field="*{niveau}">
+                            <option th:value="${eleve.getNiveau.getId}" th:text="${eleve.getNiveau.toString}">
                             </option>
                         </select>
                     </div>

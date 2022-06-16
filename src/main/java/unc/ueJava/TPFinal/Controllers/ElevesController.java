@@ -76,9 +76,16 @@ public class ElevesController {
     public String modifierEleve(@PathVariable("numeroEtudiant") int numeroEtudiant, @Validated Eleve eleve,
             BindingResult result,
             Model model) {
-        eleve.setId(numeroEtudiant);
+        eleve.setNumeroEtudiant(numeroEtudiant);
         eleveService.saveEleve(eleve);
         model.addAttribute("liste_eleves", this.eleveService.getAllEleves());
+        return "eleves_list";
+    }
+
+    @GetMapping("/eleves/{numeroEtudiant}/delete")
+    public String supprimerEtudiant(@PathVariable("numeroEtudiant") int numeroEtudiant, Model model) {
+        this.eleveService.delEleve(numeroEtudiant);
+        model.addAttribute("liste_salles", this.eleveService.getAllEleves());
         return "eleves_list";
     }
 
