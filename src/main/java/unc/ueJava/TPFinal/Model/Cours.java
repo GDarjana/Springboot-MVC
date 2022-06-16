@@ -33,11 +33,9 @@ public class Cours {
     @Column(name = "horaire_fin")
     private String horaire_fin;
 
-    /**
-     * @ManyToOne(cascade = CascadeType.ALL)
-     * @JoinColumn(name = "salle_code")
-     *                  private Salle salle;
-     */
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "salleId")
+    private Salle salle;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "cours_eleves", joinColumns = @JoinColumn(name = "nom_ue"), inverseJoinColumns = @JoinColumn(name = "numero_etudiant"))
@@ -104,6 +102,14 @@ public class Cours {
 
     public Niveau getNiveau() {
         return this.niveau;
+    }
+
+    public Salle getSalle() {
+        return this.salle;
+    }
+
+    public void setSalle(Salle salle) {
+        this.salle = salle;
     }
 
 }

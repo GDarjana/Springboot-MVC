@@ -1,5 +1,8 @@
 package unc.ueJava.TPFinal.Model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
 
 import org.hibernate.annotations.DynamicUpdate;
@@ -11,7 +14,8 @@ public class Salle {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @Column(name = "salleId")
+    private int salleId;
 
     @Column(name = "salleCode")
     private String salleCode;
@@ -21,6 +25,9 @@ public class Salle {
 
     @Column(name = "capacite")
     private int capacite;
+
+    @OneToMany(mappedBy = "salle", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Cours> listeCours = new ArrayList<>();
 
     public Salle() {
     }
@@ -55,12 +62,34 @@ public class Salle {
         return this.capacite;
     }
 
-    public int getId() {
-        return this.id;
+    public int getSalleId() {
+        return this.salleId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setSalleId(int id) {
+        this.salleId = id;
+    }
+
+    public String toString() {
+        return this.salleCode + " " + this.nom + " " + this.capacite;
+    }
+
+    public List<Cours> getListeCours() {
+        return this.listeCours;
+    }
+
+    public void setListeCours(List<Cours> listeCours) {
+        this.listeCours = listeCours;
+    }
+
+    public void addComment(Cours cours) {
+        listeCours.add(cours);
+        cours.setSalle(this);
+    }
+
+    public void removeComment(Cours cours) {
+        listeCours.remove(cours);
+        cours.setSalle(null);
     }
 
 }

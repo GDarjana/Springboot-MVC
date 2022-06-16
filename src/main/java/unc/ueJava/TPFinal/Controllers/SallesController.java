@@ -68,7 +68,7 @@ public class SallesController {
     @PostMapping("/salles/{id}/update")
     public String modifierSalle(@PathVariable("id") int id, @Validated Salle salle, BindingResult result,
             Model model) {
-        salle.setId(id);
+        salle.setSalleId(id);
         salleService.save(salle);
         model.addAttribute("liste_salles", this.salleService.findAll());
         return "salles_list";

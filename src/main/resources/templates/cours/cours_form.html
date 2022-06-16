@@ -70,6 +70,13 @@
               </option>
             </select>
           </div>
+          <!-- Salle input -->
+          <div class="form-group">
+            <select id="salle" class="form-control" th:field="*{salle}">
+              <option th:each="salle : ${liste_salles}" th:value="${salle.getSalleId}" th:text="${salle.toString}">
+              </option>
+            </select>
+          </div>
           <div class="form-group">
             <div class="row">
               <div class="col"><button class="col-6 btn btn-primary">Ajouter</button></div>
