@@ -40,7 +40,7 @@ public class Cours {
     @ManyToMany(mappedBy = "listeCours")
     private List<Eleve> eleves = new ArrayList<>();
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "niveau_id", referencedColumnName = "id")
     private Niveau niveau;
 

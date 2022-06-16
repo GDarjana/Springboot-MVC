@@ -38,7 +38,7 @@ public class Eleve {
     @JoinTable(name = "cours_eleve", joinColumns = @JoinColumn(name = "numero_etudiant"), inverseJoinColumns = @JoinColumn(name = "id"))
     private List<Cours> listeCours;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "niveau_id", referencedColumnName = "id")
     private Niveau niveau;
 
