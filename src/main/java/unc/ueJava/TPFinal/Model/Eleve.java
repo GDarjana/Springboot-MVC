@@ -17,7 +17,7 @@ public class Eleve {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int numero_etudiant;
+    private int numeroEtudiant;
 
     @Column(name = "nom")
     private String nom;
@@ -35,7 +35,7 @@ public class Eleve {
             CascadeType.PERSIST,
             CascadeType.MERGE
     })
-    @JoinTable(name = "cours_eleve", joinColumns = @JoinColumn(name = "numero_etudiant"), inverseJoinColumns = @JoinColumn(name = "id"))
+    @JoinTable(name = "cours_eleve", joinColumns = @JoinColumn(name = "numeroEtudiant"), inverseJoinColumns = @JoinColumn(name = "id"))
     private List<Cours> listeCours;
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -53,12 +53,12 @@ public class Eleve {
         this.niveau = niveau;
     }
 
-    public int getNumero_etudiant() {
-        return numero_etudiant;
+    public int getNumeroEtudiant() {
+        return numeroEtudiant;
     }
 
-    public void setId(int numero_etudiant) {
-        this.numero_etudiant = numero_etudiant;
+    public void setId(int numeroEtudiant) {
+        this.numeroEtudiant = numeroEtudiant;
     }
 
     public String getNom() {
