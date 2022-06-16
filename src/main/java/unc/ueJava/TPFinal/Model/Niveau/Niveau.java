@@ -20,8 +20,8 @@ public class Niveau {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private int id_niveau;
-    
+    private int id;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "code")
     private CodeEnum code;
@@ -44,23 +44,27 @@ public class Niveau {
         this.libelle = libelle;
     }
 
-    public void setCode(CodeEnum code){
+    public int getId() {
+        return this.id;
+    }
+
+    public void setCode(CodeEnum code) {
         this.code = code;
     }
 
-    public void setLibelle(LibelleEnum libelle){
+    public void setLibelle(LibelleEnum libelle) {
         this.libelle = libelle;
     }
 
-    public CodeEnum getCode(){
+    public CodeEnum getCode() {
         return this.code;
     }
 
-    public LibelleEnum getLibelle(){
+    public LibelleEnum getLibelle() {
         return this.libelle;
     }
 
-    public String toString(){
+    public String toString() {
         return this.code + " " + this.libelle;
     }
 

@@ -1,6 +1,5 @@
 package unc.ueJava.TPFinal;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -29,7 +28,7 @@ import unc.ueJava.TPFinal.Model.Niveau.Niveau;
 
 @Configuration
 @EnableTransactionManagement // active le management des transaction
-@ComponentScan(basePackages = { "nc.univ.springdata.Services" })
+@ComponentScan(basePackages = { "unc.ueJava.TPFinal.Services" })
 @EnableJpaRepositories(basePackages = { "unc.ueJava.TPFinal.DAO" }) // active les repositories
 public class Config {
     /**
@@ -145,15 +144,14 @@ public class Config {
     }
 
     @Bean
-    public CommandLineRunner loadData(NiveauRepository niveauRepository){
+    public CommandLineRunner loadData(NiveauRepository niveauRepository) {
         return (args) -> {
 
             Arrays.asList(CodeEnum.values()).forEach(code -> {
-                Arrays.asList(LibelleEnum.values()).forEach(libelle -> 
-                    niveauRepository.save(new Niveau(code, libelle))
-                );
+                Arrays.asList(LibelleEnum.values())
+                        .forEach(libelle -> niveauRepository.save(new Niveau(code, libelle)));
             });
         };
     }
-    
+
 }

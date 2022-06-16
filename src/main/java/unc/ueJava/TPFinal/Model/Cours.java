@@ -8,7 +8,6 @@ import unc.ueJava.TPFinal.Model.Niveau.Niveau;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
@@ -99,11 +98,11 @@ public class Cours {
         return this.eleves;
     }
 
-    public void setNiveau(Niveau niveau){
+    public void setNiveau(Niveau niveau) {
         this.niveau = niveau;
     }
 
-    public Niveau getNiveau(){
+    public Niveau getNiveau() {
         return this.niveau;
     }
 

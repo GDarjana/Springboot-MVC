@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import unc.ueJava.TPFinal.DAO.CoursRepository;
+import unc.ueJava.TPFinal.DAO.NiveauRepository;
 import unc.ueJava.TPFinal.Model.Cours;
 
 @Controller
@@ -15,6 +16,9 @@ public class CoursController {
 
     @Autowired
     private CoursRepository coursService;
+
+    @Autowired
+    private NiveauRepository niveauService;
 
     @GetMapping("/cours")
     public String cours(Model model) {
@@ -32,6 +36,7 @@ public class CoursController {
     public String ajouterCours(Model model) {
         Cours cours = new Cours();
         model.addAttribute("cours", cours);
+        model.addAttribute("liste_niveaux", niveauService.findAll());
         return "cours_form";
     }
 
