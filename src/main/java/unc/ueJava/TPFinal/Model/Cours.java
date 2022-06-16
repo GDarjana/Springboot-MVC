@@ -33,7 +33,7 @@ public class Cours {
     @Column(name = "horaire_fin")
     private String horaire_fin;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "salleId")
     private Salle salle;
 
@@ -53,6 +53,14 @@ public class Cours {
         this.horaire_debut = horaire_debut;
         this.horaire_fin = horaire_fin;
         this.niveau = niveau;
+    }
+
+    public int getCoursId(){
+        return this.id;
+    }
+
+    public void setCoursId(int id){
+        this.id = id;
     }
 
     public void setNom_ue(String nom_ue) {

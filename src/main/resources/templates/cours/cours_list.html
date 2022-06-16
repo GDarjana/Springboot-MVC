@@ -25,6 +25,8 @@
           <th data-field="horaire_debut" data-filter-control="input" >Heure début</th>
           <th data-field="horaire_fin" data-filter-control="input" >Heure fin</th>
           <th data-field="niveau" data-filter-control="input" >Niveau</th>
+          <th>Modifier</th>
+          <th>Supprimer</th>
         </tr>
     </thead>
         <tbody>
@@ -34,6 +36,10 @@
                 <td th:text="${cours.getHoraire_debut}"></td>
                 <td th:text="${cours.getHoraire_fin}"></td>
                 <td th:text="${cours.getNiveau.toString}"></td>
+                <td><a th:href="@{/cours/{id}/edit/(id=${cours.getCoursId})}" class="btn btn-primary"><i
+                    class="fas fa-user-edit ml-2"></i></a></td>
+                <td><a th:href="@{/cours/{id}/delete/(id=${cours.getCoursId})}" class="btn btn-primary"><i
+                    class="fas fa-user-times ml-2"></i></a></td>
             </tr>
         </tbody>
     </table>
