@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import unc.ueJava.TPFinal.DAO.NiveauRepository;
 import unc.ueJava.TPFinal.Model.Eleve;
 import unc.ueJava.TPFinal.Services.EleveService;
 
@@ -18,6 +19,9 @@ public class ElevesController {
 
     @Autowired
     private EleveService eleveService;
+
+    @Autowired
+    private NiveauRepository niveauService;
 
     @GetMapping("/eleves")
     public String eleves(Model model) {
@@ -35,6 +39,7 @@ public class ElevesController {
     public String ajouterEleve(Model model) {
         Eleve eleve = new Eleve();
         model.addAttribute("eleve", eleve);
+        model.addAttribute("liste_niveaux", niveauService.findAll());
         return "eleve_form";
     }
 

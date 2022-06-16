@@ -71,7 +71,7 @@ public class Salle {
     }
 
     public String toString() {
-        return this.salleCode + " " + this.nom + " " + this.capacite;
+        return this.salleCode + " " + this.nom + " Capacité : " + this.capacite;
     }
 
     public List<Cours> getListeCours() {

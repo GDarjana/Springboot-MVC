@@ -44,9 +44,15 @@ public class SallesController {
      * Page liste des salles après avoir ajouter une nouvelle salle
      */
     @PostMapping("/salles")
-    public String salles(@ModelAttribute("salle") Salle salle) {
-        salleService.save(salle);
-        return "redirect:/salles";
+    public String salles(@ModelAttribute("salle") Salle salle, Model model) {
+        Optional<Salle> existingSalle = salleService.findBySalleCode(salle.getSalleCode());
+        if (existingSalle.isPresent()) {
+            model.addAttribute("erreur", "La salle " + existingSalle.get().getSalleCode() + " existe déjà ");
+        } else {
+            salleService.save(salle);
+        }
+        model.addAttribute("liste_salles", this.salleService.findAll());
+        return "salles_list";
     }
 
     /*
@@ -79,6 +85,7 @@ public class SallesController {
         Optional<Salle> salle = this.salleService.findById(id);
         this.salleService.delete(salle.get());
         model.addAttribute("liste_salles", this.salleService.findAll());
+        model.addAttribute("erreur", "Yoya zi tintin");
         return "salles_list";
     }
 
