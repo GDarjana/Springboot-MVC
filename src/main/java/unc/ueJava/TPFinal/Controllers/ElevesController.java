@@ -5,6 +5,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,16 +55,31 @@ public class ElevesController {
     }
 
     /**
-     * Accède aux informations de l'élève
+     * Page de modification d'un élève déjà existant
      */
-    @GetMapping("/eleves/{numero_etudiant}")
-    public String eleve_details(@PathVariable("numero_etudiant") int numero_etudiant, Model model) {
-        Optional<Eleve> eleve = eleveService.getEleve(numero_etudiant);
+    @GetMapping("/eleves/{numeroEtudiant}/edit")
+    public String modifierEleve(@PathVariable("numeroEtudiant") int numeroEtudiant, Model model) {
+        Optional<Eleve> eleve = eleveService.getEleve(numeroEtudiant);
         if (eleve.isPresent()) {
             model.addAttribute("eleve", eleve.get());
             model.addAttribute("liste_cours", eleve.get().getCours());
+            model.addAttribute("liste_niveaux", niveauService.findAll());
+            return "eleve_update";
         }
-        return "eleve_informations";
+        return "redirect:/eleves";
+    }
+
+    /*
+     * Page de la liste des élèves après avoir modifié un élève existant
+     */
+    @PostMapping("/eleves/{numeroEtudiant}/update")
+    public String modifierEleve(@PathVariable("numeroEtudiant") int numeroEtudiant, @Validated Eleve eleve,
+            BindingResult result,
+            Model model) {
+        eleve.setId(numeroEtudiant);
+        eleveService.saveEleve(eleve);
+        model.addAttribute("liste_eleves", this.eleveService.getAllEleves());
+        return "eleves_list";
     }
 
 }

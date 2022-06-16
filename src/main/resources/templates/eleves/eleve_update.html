@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Élève</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header th:insert="header.html :: header"> </header>
+    <div class="container-fluid h-100 bg-light text-dark">
+        <div class="row justify-content-center align-items-center">
+            <h1>Informations de l'élève</h1>
+        </div>
+        <div class="row justify-content-center align-items-center h-100">
+            <div class="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                <form action="#"
+                    th:action="@{/eleves/{numeroEtudiant}/update(numeroEtudiant=${eleve.getNumeroEtudiant})}"
+                    th:object="${eleve}" method="post">
+                    <p><b>Numéro étudiant : </b><span th:text="${eleve.getNumeroEtudiant}"></span></p>
+                    <!-- Niveau input -->
+                    <div class="form-group">
+                        <select id="niveau" class="form-control" th:field="*{niveau}" disabled>
+                            <option th:each="niveau : ${liste_niveaux}" th:value="${niveau.getId}"
+                                th:text="${niveau.toString}">
+                            </option>
+                        </select>
+                    </div>
+                    <!-- Nom de l'étudiant input -->
+                    <div class="form-group">
+                        <input type="text" id="nom" class="form-control" th:field="*{nom}" />
+                        <label class="form-label" for="nom">Nom</label>
+                    </div>
+                    <!-- Prénom de l'étudiant input -->
+                    <div class="form-group">
+                        <input type="text" id="prenom" class="form-control" th:field="*{prenom}" />
+                        <label class="form-label" for="prenom">Prénom</label>
+                    </div>
+                    <!-- Adresse de l'étudiant input -->
+                    <div class="form-group">
+                        <input type="text" id="adresse" class="form-control" th:field="*{adresse}" />
+                        <label class="form-label" for="adresse">Adresse</label>
+                    </div>
+                    <!-- Cours de l'étudiant  -->
+                    <p><b>Cours :</b>
+                    <table>
+                        <th:block th:each="cours : ${liste_cours}">
+                            <tr>
+                                <strong th:text="${cours.getNom_ue}"></strong>
+                                <td th:text="' Début : ' + ${cours.getDebut} + ' Fin : ' + ${cours.getFin}"></td>
+                            </tr>
+                        </th:block>
+                    </table>
+                    </p>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col"><button class="col-6 btn btn-primary">Mettre à jour</button></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
