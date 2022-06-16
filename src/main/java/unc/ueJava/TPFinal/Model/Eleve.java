@@ -31,8 +31,12 @@ public class Eleve {
     @Column(name = "adresse")
     private String adresse;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    private List<Cours> cours;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JoinTable(name = "cours_eleve", joinColumns = @JoinColumn(name = "numero_etudiant"), inverseJoinColumns = @JoinColumn(name = "id"))
+    private List<Cours> listeCours;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "niveau_id", referencedColumnName = "id")
@@ -74,15 +78,15 @@ public class Eleve {
     }
 
     public List<Cours> getCours() {
-        return cours;
+        return listeCours;
     }
 
     public void addCours(Cours cours) {
-        this.cours.add(cours);
+        this.listeCours.add(cours);
     }
 
     public void setCours(List<Cours> cours) {
-        this.cours = cours;
+        this.listeCours = cours;
     }
 
     public void setAdresse(String adresse) {
@@ -101,11 +105,11 @@ public class Eleve {
         return this.age;
     }
 
-    public void setNiveau(Niveau niveau){
+    public void setNiveau(Niveau niveau) {
         this.niveau = niveau;
     }
 
-    public Niveau getNiveau(){
+    public Niveau getNiveau() {
         return this.niveau;
     }
 }

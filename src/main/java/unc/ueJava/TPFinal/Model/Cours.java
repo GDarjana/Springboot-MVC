@@ -37,8 +37,7 @@ public class Cours {
     @JoinColumn(name = "salleId")
     private Salle salle;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "cours_eleves", joinColumns = @JoinColumn(name = "nom_ue"), inverseJoinColumns = @JoinColumn(name = "numero_etudiant"))
+    @ManyToMany(mappedBy = "listeCours")
     private List<Eleve> eleves = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY)
