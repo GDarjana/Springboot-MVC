@@ -92,4 +92,8 @@ public class Salle {
         cours.setSalle(null);
     }
 
+    public boolean isEmpty() {
+        return listeCours.isEmpty();
+    }
+
 }

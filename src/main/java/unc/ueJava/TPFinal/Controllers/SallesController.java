@@ -83,9 +83,12 @@ public class SallesController {
     @GetMapping("/salles/{id}/delete")
     public String deleteStudent(@PathVariable("id") int id, Model model) {
         Optional<Salle> salle = this.salleService.findById(id);
-        this.salleService.delete(salle.get());
+        if (salle.get().getListeCours().isEmpty()) {
+            this.salleService.delete(salle.get());
+        } else {
+            model.addAttribute("erreur", "La salle " + salle.get().getSalleCode() + " est utilisé pour des cours");
+        }
         model.addAttribute("liste_salles", this.salleService.findAll());
-        model.addAttribute("erreur", "Yoya zi tintin");
         return "salles_list";
     }
 
