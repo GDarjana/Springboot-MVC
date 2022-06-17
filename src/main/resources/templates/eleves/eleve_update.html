@@ -52,8 +52,7 @@
                         <th:block th:each="cours : ${liste_cours}">
                             <tr>
                                 <strong th:text="${cours.getNom_ue}"></strong>
-                                <td
-                                    th:text="' Début : ' + ${cours.getHoraire_debut} + ' Fin : ' + ${cours.getHoraire_fin}">
+                                <td th:text="' Début : ' + ${cours.getDateDebut} + ' Fin : ' + ${cours.getDateFin}">
                                 </td>
                             </tr>
                         </th:block>

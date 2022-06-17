@@ -32,9 +32,8 @@
         <thead>
             <tr>
                 <th data-field="nom_ue" data-filter-control="input">Nom de l'UE</th>
-                <th data-field="date" data-filter-control="input">Date</th>
-                <th data-field="horaire_debut" data-filter-control="input">Heure début</th>
-                <th data-field="horaire_fin" data-filter-control="input">Heure fin</th>
+                <th data-field="horaire_debut" data-filter-control="input">Date début</th>
+                <th data-field="horaire_fin" data-filter-control="input">Date fin</th>
                 <th data-field="niveau" data-filter-control="input">Niveau</th>
                 <th data-field="statut" data-filter-control="input">Statut</th>
                 <th>Ajouter</th>
@@ -44,9 +43,8 @@
         <tbody>
             <tr th:each="cours :${cours_disponibles}">
                 <td th:text="${cours.getNom_ue}"></td>
-                <td th:text="${cours.getDate}"></td>
-                <td th:text="${cours.getHoraire_debut}"></td>
-                <td th:text="${cours.getHoraire_fin}"></td>
+                <td th:text="${cours.getDateDebut}"></td>
+                <td th:text="${cours.getDateFin}"></td>
                 <td th:text="${cours.getNiveau.toString}"></td>
                 <td> Non-inscrit </td>
                 <td><a th:href="@{/eleves/{numeroEtudiant}/cours/{id}/add(numeroEtudiant=${eleve.getNumeroEtudiant},id=${cours.getCoursId})}"
@@ -55,9 +53,8 @@
             </tr>
             <tr th:each="cours :${cours_inscrits}">
                 <td th:text="${cours.getNom_ue}"></td>
-                <td th:text="${cours.getDate}"></td>
-                <td th:text="${cours.getHoraire_debut}"></td>
-                <td th:text="${cours.getHoraire_fin}"></td>
+                <td th:text="${cours.getDateDebut}"></td>
+                <td th:text="${cours.getDateFin}"></td>
                 <td th:text="${cours.getNiveau.toString}"></td>
                 <td> Inscrit </td>
                 <td></td>
