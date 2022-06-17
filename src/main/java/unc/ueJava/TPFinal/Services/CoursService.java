@@ -1,5 +1,7 @@
 package unc.ueJava.TPFinal.Services;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,22 @@ public class CoursService {
 
     @Autowired
     private CoursRepository coursRepository;
+
+    public Iterable<Cours> getListeCours() {
+        return this.coursRepository.findAll();
+    }
+
+    public Optional<Cours> getCoursById(int coursId) {
+        return this.coursRepository.findById(coursId);
+    }
+
+    public void saveCours(Cours cours) {
+        this.coursRepository.save(cours);
+    }
+
+    public void deleteCours(Cours cours) {
+        this.coursRepository.delete(cours);
+    }
 
     public boolean isHoraireAndSalleOk(Cours cours) {
         if (coursRepository.findByDateDebutLessThanEqualAndDateFinGreaterThanEqualAndSalle(cours.getDateFin(),
