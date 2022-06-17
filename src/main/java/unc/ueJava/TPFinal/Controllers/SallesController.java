@@ -12,24 +12,27 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import unc.ueJava.TPFinal.DAO.SalleRepository;
 import unc.ueJava.TPFinal.Model.Salle;
+import unc.ueJava.TPFinal.Services.SalleService;
 
 @Controller
 public class SallesController {
 
     @Autowired
-    private SalleRepository salleService;
+    private SalleService salleService;
 
+    /*
+     * Page d'affichage de la liste des salles
+     */
     @GetMapping("/salles")
     public String salles(Model model) {
-        Iterable<Salle> liste_salle = salleService.findAll();
+        Iterable<Salle> liste_salle = salleService.getAllSalles();
         model.addAttribute("liste_salles", liste_salle);
         return "salles_list";
     }
 
     /**
-     * Page d'ajout
+     * Page d'ajout d'une salle
      * 
      * @return
      */
@@ -41,17 +44,17 @@ public class SallesController {
     }
 
     /*
-     * Page liste des salles après avoir ajouter une nouvelle salle
+     * Page de la liste des salles après avoir ajouté une salle
      */
     @PostMapping("/salles")
     public String salles(@ModelAttribute("salle") Salle salle, Model model) {
-        Optional<Salle> existingSalle = salleService.findBySalleCode(salle.getSalleCode());
+        Optional<Salle> existingSalle = salleService.getSalleBySalleCode(salle.getSalleCode());
         if (existingSalle.isPresent()) {
             model.addAttribute("erreur", "La salle " + existingSalle.get().getSalleCode() + " existe déjà ");
         } else {
-            salleService.save(salle);
+            salleService.saveSalle(salle);
         }
-        model.addAttribute("liste_salles", this.salleService.findAll());
+        model.addAttribute("liste_salles", this.salleService.getAllSalles());
         return "salles_list";
     }
 
@@ -60,7 +63,7 @@ public class SallesController {
      */
     @GetMapping("/salles/{id}/edit")
     public String modifierSalle(@PathVariable("id") int id, Model model) {
-        Optional<Salle> salle = salleService.findById(id);
+        Optional<Salle> salle = salleService.getSalleById(id);
         if (salle.isPresent()) {
             model.addAttribute("salle", salle.get());
             return "salle_update";
@@ -75,20 +78,23 @@ public class SallesController {
     public String modifierSalle(@PathVariable("id") int id, @Validated Salle salle, BindingResult result,
             Model model) {
         salle.setSalleId(id);
-        salleService.save(salle);
-        model.addAttribute("liste_salles", this.salleService.findAll());
+        salleService.saveSalle(salle);
+        model.addAttribute("liste_salles", this.salleService.getAllSalles());
         return "salles_list";
     }
 
+    /*
+     * Page de la liste des salles après avoir supprimé
+     */
     @GetMapping("/salles/{id}/delete")
     public String supprimerSalle(@PathVariable("id") int id, Model model) {
-        Optional<Salle> salle = this.salleService.findById(id);
+        Optional<Salle> salle = this.salleService.getSalleById(id);
         if (salle.get().getListeCours().isEmpty()) {
-            this.salleService.delete(salle.get());
+            this.salleService.deleteSalle(salle.get());
         } else {
             model.addAttribute("erreur", "La salle " + salle.get().getSalleCode() + " est utilisé pour des cours");
         }
-        model.addAttribute("liste_salles", this.salleService.findAll());
+        model.addAttribute("liste_salles", this.salleService.getAllSalles());
         return "salles_list";
     }
 
