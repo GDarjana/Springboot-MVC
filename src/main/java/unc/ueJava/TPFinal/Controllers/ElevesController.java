@@ -98,7 +98,7 @@ public class ElevesController {
     @GetMapping("/eleves/{numeroEtudiant}/delete")
     public String supprimerEtudiant(@PathVariable("numeroEtudiant") int numeroEtudiant, Model model) {
         this.eleveService.delEleve(numeroEtudiant);
-        model.addAttribute("liste_salles", this.eleveService.getAllEleves());
+        model.addAttribute("liste_eleves", this.eleveService.getAllEleves());
         return "eleves_list";
     }
 
@@ -131,8 +131,9 @@ public class ElevesController {
             eleve.get().addCours(coursToAdd.get());
             eleveService.saveEleve(eleve.get());
             coursService.save(coursToAdd.get());
+            System.out.println("Liste des élèves dans le cours : " + coursToAdd.get().getEleves());
         } else {
-            System.out.println("ERREUR");
+            System.out.println("Liste des élèves dans le cours : " + coursToAdd.get().getEleves());
             model.addAttribute("erreur", "Le cours " + coursToAdd.get().toString() + " a atteint sa capacité maximale");
         }
         List<Cours> cours_disponibles = coursService.findAllByNiveauId(eleve.get().getNiveau().getId());
