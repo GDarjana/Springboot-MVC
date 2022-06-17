@@ -31,11 +31,8 @@ public class Eleve {
     @Column(name = "adresse")
     private String adresse;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-    })
-    @JoinTable(name = "cours_eleve", joinColumns = @JoinColumn(name = "numeroEtudiant"), inverseJoinColumns = @JoinColumn(name = "id"))
+    @ManyToMany
+    @JoinTable(name = "cours_eleves", joinColumns = @JoinColumn(name = "numero_etudiant"), inverseJoinColumns = @JoinColumn(name = "cours_id"))
     private List<Cours> listeCours;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -117,12 +114,13 @@ public class Eleve {
         return this.niveau;
     }
 
-    public boolean isNewCoursOk(Cours newCours){
-       for(Cours cours : this.getCours()){
-            if((newCours.getDateDebut().isBefore(cours.getDateFin())) && (newCours.getDateFin().isAfter(cours.getDateDebut()))){
+    public boolean isNewCoursOk(Cours newCours) {
+        for (Cours cours : this.getCours()) {
+            if ((newCours.getDateDebut().isBefore(cours.getDateFin()))
+                    && (newCours.getDateFin().isAfter(cours.getDateDebut()))) {
                 return false;
             }
-       }
-       return true;
+        }
+        return true;
     }
 }

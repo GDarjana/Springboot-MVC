@@ -151,7 +151,6 @@ public class ElevesController {
         eleve.get().addCours(coursToAdd.get());
         eleveService.saveEleve(eleve.get());
         coursService.saveCours(coursToAdd.get());
-        System.out.println("Liste des élèves dans le cours : " + coursToAdd.get().getEleves());
         List<Cours> cours_disponibles = coursService.getAllCoursByNiveauId(eleve.get().getNiveau().getId());
         cours_disponibles.removeAll(eleve.get().getCours());
         model.addAttribute("eleve", eleve.get());

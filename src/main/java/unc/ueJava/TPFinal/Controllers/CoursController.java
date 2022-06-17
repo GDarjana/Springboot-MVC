@@ -105,7 +105,7 @@ public class CoursController {
             model.addAttribute("cours", cours);
             return "cours_update";
         }
-        
+
         coursService.saveCours(cours);
         model.addAttribute("liste_cours", this.coursService.getListeCours());
         return "cours_list";
@@ -117,6 +117,9 @@ public class CoursController {
     @GetMapping("/cours/{id}/delete")
     public String deleteStudent(@PathVariable("id") int id, Model model) {
         Optional<Cours> cours = this.coursService.getCoursById(id);
+        cours.get().getEleves().forEach(eleve -> {
+            eleve.removeCours(cours.get());
+        });
         this.coursService.deleteCours(cours.get());
         model.addAttribute("liste_cours", this.coursService.getListeCours());
         return "cours_list";
