@@ -21,7 +21,7 @@ public class Cours {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int coursId;
 
     @Column(name = "nom_ue")
     private String nom_ue;
@@ -57,11 +57,11 @@ public class Cours {
     }
 
     public int getCoursId() {
-        return this.id;
+        return this.coursId;
     }
 
     public void setCoursId(int id) {
-        this.id = id;
+        this.coursId = id;
     }
 
     public void setNom_ue(String nom_ue) {
@@ -104,6 +104,11 @@ public class Cours {
 
     public List<Eleve> getEleves() {
         return this.eleves;
+    }
+
+    public void setEleves(List<Eleve> eleves) {
+        this.eleves = eleves;
+        ;
     }
 
     public void setNiveau(Niveau niveau) {
