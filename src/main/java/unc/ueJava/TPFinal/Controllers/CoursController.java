@@ -59,7 +59,7 @@ public class CoursController {
     @PostMapping("/cours")
     public String cours(@ModelAttribute("cours") Cours cours, Model model) {
         if (!coursService.isHoraireAndSalleOk(cours)) {
-            model.addAttribute("erreur", "La salle " + cours.getSalle() + " est utilisée aux horaires entrées");
+            model.addAttribute("erreur", "La salle " + cours.getSalle().getNom() + " est utilisée aux horaires entrées");
         } else {
             coursService.saveCours(cours);
         }
@@ -89,7 +89,15 @@ public class CoursController {
     public String modifierSalle(@PathVariable("id") int id, @Validated Cours cours, BindingResult result,
             Model model) {
         cours.setCoursId(id);
-        coursService.saveCours(cours);
+        if (!coursService.isHoraireAndSalleOk(cours)) {
+            model.addAttribute("erreur", "La salle " + cours.getSalle().getNom() + " est utilisée aux horaires entrées");
+            model.addAttribute("liste_niveaux", niveauService.getAllNiveaux());
+            model.addAttribute("liste_salles", salleService.getAllSalles());
+            model.addAttribute("cours", cours);
+            return "cours_update";
+        } else {
+            coursService.saveCours(cours);
+        }
         model.addAttribute("liste_cours", this.coursService.getListeCours());
         return "cours_list";
     }
