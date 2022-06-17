@@ -12,26 +12,26 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import unc.ueJava.TPFinal.DAO.CoursRepository;
-import unc.ueJava.TPFinal.DAO.NiveauRepository;
-import unc.ueJava.TPFinal.DAO.SalleRepository;
 import unc.ueJava.TPFinal.Model.Cours;
+import unc.ueJava.TPFinal.Services.CoursService;
+import unc.ueJava.TPFinal.Services.NiveauService;
+import unc.ueJava.TPFinal.Services.SalleService;
 
 @Controller
 public class CoursController {
 
     @Autowired
-    private CoursRepository coursService;
+    private CoursService coursService;
 
     @Autowired
-    private NiveauRepository niveauService;
+    private NiveauService niveauService;
 
     @Autowired
-    private SalleRepository salleService;
+    private SalleService salleService;
 
     @GetMapping("/cours")
     public String cours(Model model) {
-        Iterable<Cours> liste_cours = coursService.findAll();
+        Iterable<Cours> liste_cours = coursService.getListeCours();
         model.addAttribute("liste_cours", liste_cours);
         return "cours_list";
     }
@@ -45,8 +45,8 @@ public class CoursController {
     public String ajouterCours(Model model) {
         Cours cours = new Cours();
         model.addAttribute("cours", cours);
-        model.addAttribute("liste_niveaux", niveauService.findAll());
-        model.addAttribute("liste_salles", salleService.findAll());
+        model.addAttribute("liste_niveaux", niveauService.getAllNiveaux());
+        model.addAttribute("liste_salles", salleService.getAllSalles());
         return "cours_form";
     }
 
@@ -55,22 +55,21 @@ public class CoursController {
      */
     @PostMapping("/cours")
     public String cours(@ModelAttribute("cours") Cours cours, Model model) {
-        if (coursService.findByDateDebutLessThanEqualAndDateFinGreaterThanEqualAndSalle(cours.getDateFin(),
-                cours.getDateDebut(), cours.getSalle()).isPresent()) {
+        if (!coursService.isHoraireAndSalleOk(cours)) {
             model.addAttribute("erreur", "La salle " + cours.getSalle() + " est utilisée aux horaires entrées");
         } else {
-            coursService.save(cours);
+            coursService.saveCours(cours);
         }
-        model.addAttribute("liste_cours", this.coursService.findAll());
+        model.addAttribute("liste_cours", this.coursService.getListeCours());
         return "cours_list";
     }
 
     @GetMapping("/cours/{id}/edit")
     public String modifierCours(@PathVariable("id") int id, Model model) {
-        Optional<Cours> cours = coursService.findById(id);
+        Optional<Cours> cours = coursService.getCoursById(id);
         if (cours.isPresent()) {
-            model.addAttribute("liste_niveaux", niveauService.findAll());
-            model.addAttribute("liste_salles", salleService.findAll());
+            model.addAttribute("liste_niveaux", niveauService.getAllNiveaux());
+            model.addAttribute("liste_salles", salleService.getAllSalles());
             model.addAttribute("cours", cours.get());
             return "cours_update";
         }
@@ -81,16 +80,16 @@ public class CoursController {
     public String modifierSalle(@PathVariable("id") int id, @Validated Cours cours, BindingResult result,
             Model model) {
         cours.setCoursId(id);
-        coursService.save(cours);
-        model.addAttribute("liste_cours", this.coursService.findAll());
+        coursService.saveCours(cours);
+        model.addAttribute("liste_cours", this.coursService.getListeCours());
         return "cours_list";
     }
 
     @GetMapping("/cours/{id}/delete")
     public String deleteStudent(@PathVariable("id") int id, Model model) {
-        Optional<Cours> cours = this.coursService.findById(id);
-        this.coursService.delete(cours.get());
-        model.addAttribute("liste_cours", this.coursService.findAll());
+        Optional<Cours> cours = this.coursService.getCoursById(id);
+        this.coursService.deleteCours(cours.get());
+        model.addAttribute("liste_cours", this.coursService.getListeCours());
         return "cours_list";
     }
 }
