@@ -92,10 +92,8 @@ public class CoursController {
     @PostMapping("/cours/{id}/update")
     public String modifierSalle(@PathVariable("id") int id, @Validated Cours cours, BindingResult result,
             Model model) {
-        /*if (!coursService.isCoursModified(coursService.getCoursById(id).get(), cours)) {
-            model.addAttribute("liste_cours", this.coursService.getListeCours());
-            return "cours_list";
-        }*/
+        cours.setCoursId(id);
+        // Vérifie si l'horaire et la salle sont libres
         if (!coursService.isHoraireAndSalleOk(cours)) {
             model.addAttribute("erreur",
                     "La salle " + cours.getSalle().getSalleCode() + " est utilisée aux horaires entrées");
@@ -104,7 +102,6 @@ public class CoursController {
             model.addAttribute("cours", cours);
             return "cours_update";
         }
-        cours.setCoursId(id);
         coursService.saveCours(cours);
         model.addAttribute("liste_cours", this.coursService.getListeCours());
         return "cours_list";

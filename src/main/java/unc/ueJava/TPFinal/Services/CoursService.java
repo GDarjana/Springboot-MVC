@@ -40,13 +40,11 @@ public class CoursService {
         return this.coursRepository.findAllByNiveauId(niveauId);
     }
 
-    public boolean isCoursModified(Cours oldCours, Cours coursUpdated) {
-        return oldCours.equals(coursUpdated);
-    }
-
     public boolean isHoraireAndSalleOk(Cours cours) {
-        if (coursRepository.findByDateDebutLessThanEqualAndDateFinGreaterThanEqualAndSalle(cours.getDateFin(),
-                cours.getDateDebut(), cours.getSalle()).isPresent()) {
+        Optional<Cours> cours_trouve = coursRepository
+                .findByDateDebutLessThanEqualAndDateFinGreaterThanEqualAndSalle(cours.getDateFin(),
+                        cours.getDateDebut(), cours.getSalle());
+        if (cours_trouve.isPresent() && cours_trouve.get().getCoursId() != cours.getCoursId()) {
             return false;
         }
         return true;
