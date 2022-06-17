@@ -92,7 +92,6 @@ public class CoursController {
     @PostMapping("/cours/{id}/update")
     public String modifierSalle(@PathVariable("id") int id, @Validated Cours cours, BindingResult result,
             Model model) {
-        cours.setCoursId(id);
         if (!coursService.isCoursModified(coursService.getCoursById(id).get(), cours)) {
             model.addAttribute("liste_cours", this.coursService.getListeCours());
             return "cours_list";
@@ -105,7 +104,7 @@ public class CoursController {
             model.addAttribute("cours", cours);
             return "cours_update";
         }
-        
+        cours.setCoursId(id);
         coursService.saveCours(cours);
         model.addAttribute("liste_cours", this.coursService.getListeCours());
         return "cours_list";
