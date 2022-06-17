@@ -61,6 +61,9 @@ public class CoursController {
         if (!coursService.isHoraireAndSalleOk(cours)) {
             model.addAttribute("erreur",
                     "La salle " + cours.getSalle().getSalleCode() + " est utilisée aux horaires entrées");
+            model.addAttribute("liste_niveaux", niveauService.getAllNiveaux());
+            model.addAttribute("liste_salles", salleService.getAllSalles());
+            model.addAttribute("cours", cours);
             return "cours_update";
         }
         coursService.saveCours(cours);
