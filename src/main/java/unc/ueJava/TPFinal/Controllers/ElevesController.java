@@ -1,5 +1,6 @@
 package unc.ueJava.TPFinal.Controllers;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import unc.ueJava.TPFinal.DAO.CoursRepository;
 import unc.ueJava.TPFinal.DAO.NiveauRepository;
+import unc.ueJava.TPFinal.Model.Cours;
 import unc.ueJava.TPFinal.Model.Eleve;
 import unc.ueJava.TPFinal.Services.EleveService;
 
@@ -24,6 +27,9 @@ public class ElevesController {
 
     @Autowired
     private NiveauRepository niveauService;
+
+    @Autowired
+    private CoursRepository coursService;
 
     @GetMapping("/eleves")
     public String eleves(Model model) {
@@ -82,11 +88,56 @@ public class ElevesController {
         return "eleves_list";
     }
 
+    /**
+     * Page des élèves après avoir supprimer un élève
+     * 
+     * @param numeroEtudiant
+     * @param model
+     * @return
+     */
     @GetMapping("/eleves/{numeroEtudiant}/delete")
     public String supprimerEtudiant(@PathVariable("numeroEtudiant") int numeroEtudiant, Model model) {
         this.eleveService.delEleve(numeroEtudiant);
         model.addAttribute("liste_salles", this.eleveService.getAllEleves());
         return "eleves_list";
+    }
+
+    /*
+     * Page des cours de l'élève
+     */
+    @GetMapping("/eleves/{numeroEtudiant}/cours/edit")
+    public String coursEtudiant(@PathVariable("numeroEtudiant") int numeroEtudiant, Model model) {
+        // Récupère l'éleve
+        Optional<Eleve> eleve = eleveService.getEleve(numeroEtudiant);
+        // Récupérer la liste des cours dispo pour son niveau
+        List<Cours> cours_disponibles = coursService.findAllByNiveauId(eleve.get().getNiveau().getId());
+        model.addAttribute("eleve", eleve.get());
+        model.addAttribute("cours_disponibles", cours_disponibles);
+        model.addAttribute("cours_inscrits", eleve.get().getCours());
+        return "eleve_cours";
+    }
+
+    /*
+     * Ajout d'un cours d'un élève
+     */
+    @GetMapping("/eleves/{numeroEtudiant}/cours/{id}/add")
+    public String supprimerCours(@PathVariable("numeroEtudiant") int numeroEtudiant, @PathVariable("id") int cours_id,
+            Model model) {
+        Optional<Eleve> eleve = eleveService.getEleve(numeroEtudiant);
+        System.out.println("Cours de l'élève avant : " + eleve.get().getCours());
+        Optional<Cours> coursToAdd = coursService.findById(cours_id);
+        eleve.get().addCours(coursToAdd.get());
+        System.out.println("Cours de l'élève après : " + eleve.get().getCours());
+        eleveService.saveEleve(eleve.get());
+        // A faire les vérifications
+
+        //
+        // Récupérer la liste des cours dispo pour son niveau
+        List<Cours> cours_disponibles = coursService.findAllByNiveauId(eleve.get().getNiveau().getId());
+        model.addAttribute("eleve", eleve.get());
+        model.addAttribute("cours_disponibles", cours_disponibles);
+        model.addAttribute("cours_inscrits", eleve.get().getCours());
+        return "eleve_cours";
     }
 
 }
