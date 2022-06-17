@@ -81,7 +81,7 @@ public class SallesController {
     }
 
     @GetMapping("/salles/{id}/delete")
-    public String deleteStudent(@PathVariable("id") int id, Model model) {
+    public String supprimerSalle(@PathVariable("id") int id, Model model) {
         Optional<Salle> salle = this.salleService.findById(id);
         if (salle.get().getListeCours().isEmpty()) {
             this.salleService.delete(salle.get());
