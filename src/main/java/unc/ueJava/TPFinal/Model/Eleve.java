@@ -85,6 +85,10 @@ public class Eleve {
         this.listeCours.add(cours);
     }
 
+    public void removeCours(Cours cours) {
+        this.listeCours.remove(cours);
+    }
+
     public void setCours(List<Cours> cours) {
         this.listeCours = cours;
     }

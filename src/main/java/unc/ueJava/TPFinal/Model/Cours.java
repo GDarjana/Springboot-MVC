@@ -2,11 +2,11 @@ package unc.ueJava.TPFinal.Model;
 
 import javax.persistence.Entity;
 
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import unc.ueJava.TPFinal.Model.Niveau.Niveau;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -16,6 +16,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "Cours", uniqueConstraints = { @UniqueConstraint(columnNames = { "date_debut", "date_fin", "salleId" }) })
+@DynamicUpdate
 public class Cours {
 
     @Id
@@ -54,11 +55,11 @@ public class Cours {
         this.niveau = niveau;
     }
 
-    public int getCoursId(){
+    public int getCoursId() {
         return this.id;
     }
 
-    public void setCoursId(int id){
+    public void setCoursId(int id) {
         this.id = id;
     }
 
@@ -78,7 +79,7 @@ public class Cours {
         return this.dateDebut;
     }
 
-    public String getDateDebutString(){
+    public String getDateDebutString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         return this.dateDebut.format(formatter);
     }
@@ -91,7 +92,7 @@ public class Cours {
         return this.dateFin;
     }
 
-    public String getDateFinString(){
+    public String getDateFinString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         return this.dateFin.format(formatter);
     }

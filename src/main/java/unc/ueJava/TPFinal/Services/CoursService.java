@@ -17,8 +17,9 @@ public class CoursService {
     @Autowired
     private CoursRepository coursRepository;
 
-    public boolean isHoraireAndSalleOk(Cours cours){
-        if(coursRepository.findByDateDebutLessThanEqualAndDateFinGreaterThanEqualAndSalle(cours.getDateDebut(), cours.getDateFin(), cours.getSalle()).isPresent()){
+    public boolean isHoraireAndSalleOk(Cours cours) {
+        if (coursRepository.findByDateDebutLessThanEqualAndDateFinGreaterThanEqualAndSalle(cours.getDateDebut(),
+                cours.getDateFin(), cours.getSalle()).isPresent()) {
             return false;
         }
         return true;

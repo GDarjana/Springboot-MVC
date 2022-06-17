@@ -55,12 +55,14 @@ public class CoursController {
      */
     @PostMapping("/cours")
     public String cours(@ModelAttribute("cours") Cours cours, Model model) {
-        if(coursService.findByDateDebutLessThanEqualAndDateFinGreaterThanEqualAndSalle(cours.getDateFin(), cours.getDateDebut(), cours.getSalle()).isPresent()){
+        if (coursService.findByDateDebutLessThanEqualAndDateFinGreaterThanEqualAndSalle(cours.getDateFin(),
+                cours.getDateDebut(), cours.getSalle()).isPresent()) {
             model.addAttribute("erreur", "La salle " + cours.getSalle() + " est utilisée aux horaires entrées");
         } else {
             coursService.save(cours);
         }
-        return "redirect:/cours";
+        model.addAttribute("liste_cours", this.coursService.findAll());
+        return "cours_list";
     }
 
     @GetMapping("/cours/{id}/edit")

@@ -109,8 +109,8 @@ public class ElevesController {
     public String coursEtudiant(@PathVariable("numeroEtudiant") int numeroEtudiant, Model model) {
         // Récupère l'éleve
         Optional<Eleve> eleve = eleveService.getEleve(numeroEtudiant);
-        // Récupérer la liste des cours dispo pour son niveau
         List<Cours> cours_disponibles = coursService.findAllByNiveauId(eleve.get().getNiveau().getId());
+        cours_disponibles.removeAll(eleve.get().getCours());
         model.addAttribute("eleve", eleve.get());
         model.addAttribute("cours_disponibles", cours_disponibles);
         model.addAttribute("cours_inscrits", eleve.get().getCours());
@@ -121,23 +121,25 @@ public class ElevesController {
      * Ajout d'un cours d'un élève
      */
     @GetMapping("/eleves/{numeroEtudiant}/cours/{id}/add")
-    public String supprimerCours(@PathVariable("numeroEtudiant") int numeroEtudiant, @PathVariable("id") int cours_id,
+    public String ajouterCours(@PathVariable("numeroEtudiant") int numeroEtudiant, @PathVariable("id") int cours_id,
             Model model) {
         Optional<Eleve> eleve = eleveService.getEleve(numeroEtudiant);
-        System.out.println("Cours de l'élève avant : " + eleve.get().getCours());
         Optional<Cours> coursToAdd = coursService.findById(cours_id);
         eleve.get().addCours(coursToAdd.get());
-        System.out.println("Cours de l'élève après : " + eleve.get().getCours());
         eleveService.saveEleve(eleve.get());
         // A faire les vérifications
 
-        //
-        // Récupérer la liste des cours dispo pour son niveau
-        List<Cours> cours_disponibles = coursService.findAllByNiveauId(eleve.get().getNiveau().getId());
-        model.addAttribute("eleve", eleve.get());
-        model.addAttribute("cours_disponibles", cours_disponibles);
-        model.addAttribute("cours_inscrits", eleve.get().getCours());
-        return "eleve_cours";
+        return "redirect:/eleves/" + numeroEtudiant + "/cours/edit";
+    }
+
+    @GetMapping("/eleves/{numeroEtudiant}/cours/{id}/delete")
+    public String supprimerCours(@PathVariable("numeroEtudiant") int numeroEtudiant, @PathVariable("id") int cours_id,
+            Model model) {
+        Optional<Eleve> eleve = eleveService.getEleve(numeroEtudiant);
+        Optional<Cours> coursToDelete = coursService.findById(cours_id);
+        eleve.get().removeCours(coursToDelete.get());
+        eleveService.saveEleve(eleve.get());
+        return "redirect:/eleves/" + numeroEtudiant + "/cours/edit";
     }
 
 }
