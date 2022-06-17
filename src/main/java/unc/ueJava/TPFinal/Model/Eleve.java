@@ -116,4 +116,13 @@ public class Eleve {
     public Niveau getNiveau() {
         return this.niveau;
     }
+
+    public boolean isNewCoursOk(Cours newCours){
+       for(Cours cours : this.getCours()){
+            if((newCours.getDateDebut().isBefore(cours.getDateFin())) && (newCours.getDateFin().isAfter(cours.getDateDebut()))){
+                return false;
+            }
+       }
+       return true;
+    }
 }

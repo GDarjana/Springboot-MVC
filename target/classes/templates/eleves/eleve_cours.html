@@ -43,8 +43,8 @@
         <tbody>
             <tr th:each="cours :${cours_disponibles}">
                 <td th:text="${cours.getNom_ue}"></td>
-                <td th:text="${cours.getDateDebut}"></td>
-                <td th:text="${cours.getDateFin}"></td>
+                <td th:text="${cours.getDateDebutString}"></td>
+                <td th:text="${cours.getDateFinString}"></td>
                 <td th:text="${cours.getNiveau.toString}"></td>
                 <td> Non-inscrit </td>
                 <td><a th:href="@{/eleves/{numeroEtudiant}/cours/{id}/add(numeroEtudiant=${eleve.getNumeroEtudiant},id=${cours.getCoursId})}"
@@ -53,8 +53,8 @@
             </tr>
             <tr th:each="cours :${cours_inscrits}">
                 <td th:text="${cours.getNom_ue}"></td>
-                <td th:text="${cours.getDateDebut}"></td>
-                <td th:text="${cours.getDateFin}"></td>
+                <td th:text="${cours.getDateDebutString}"></td>
+                <td th:text="${cours.getDateFinString}"></td>
                 <td th:text="${cours.getNiveau.toString}"></td>
                 <td> Inscrit </td>
                 <td></td>

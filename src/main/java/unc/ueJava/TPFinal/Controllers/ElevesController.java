@@ -126,16 +126,31 @@ public class ElevesController {
         Optional<Eleve> eleve = eleveService.getEleve(numeroEtudiant);
         Optional<Cours> coursToAdd = coursService.findById(cours_id);
         // A faire les vérifications
-        if (coursToAdd.get().getEleves().size() + 1 <= coursToAdd.get().getSalle().getCapacite()) {
-            coursToAdd.get().addEleve(eleve.get());
-            eleve.get().addCours(coursToAdd.get());
-            eleveService.saveEleve(eleve.get());
-            coursService.save(coursToAdd.get());
-            System.out.println("Liste des élèves dans le cours : " + coursToAdd.get().getEleves());
-        } else {
+        if (coursToAdd.get().getEleves().size() + 1 > coursToAdd.get().getSalle().getCapacite()) {
             System.out.println("Liste des élèves dans le cours : " + coursToAdd.get().getEleves());
             model.addAttribute("erreur", "Le cours " + coursToAdd.get().toString() + " a atteint sa capacité maximale");
+            List<Cours> cours_disponibles = coursService.findAllByNiveauId(eleve.get().getNiveau().getId());
+            cours_disponibles.removeAll(eleve.get().getCours());
+            model.addAttribute("eleve", eleve.get());
+            model.addAttribute("cours_disponibles", cours_disponibles);
+            model.addAttribute("cours_inscrits", eleve.get().getCours());
+            return "eleve_cours";
         }
+        if (!eleve.get().isNewCoursOk(coursToAdd.get())){
+            System.out.println("Liste des élèves dans le cours : " + coursToAdd.get().getEleves());
+            model.addAttribute("erreur", "l'élève a un déjà cours à ces horaires");
+            List<Cours> cours_disponibles = coursService.findAllByNiveauId(eleve.get().getNiveau().getId());
+            cours_disponibles.removeAll(eleve.get().getCours());
+            model.addAttribute("eleve", eleve.get());
+            model.addAttribute("cours_disponibles", cours_disponibles);
+            model.addAttribute("cours_inscrits", eleve.get().getCours());
+            return "eleve_cours";
+        }
+        coursToAdd.get().addEleve(eleve.get());
+        eleve.get().addCours(coursToAdd.get());
+        eleveService.saveEleve(eleve.get());
+        coursService.save(coursToAdd.get());
+        System.out.println("Liste des élèves dans le cours : " + coursToAdd.get().getEleves());
         List<Cours> cours_disponibles = coursService.findAllByNiveauId(eleve.get().getNiveau().getId());
         cours_disponibles.removeAll(eleve.get().getCours());
         model.addAttribute("eleve", eleve.get());
