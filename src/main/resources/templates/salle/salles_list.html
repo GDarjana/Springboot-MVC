@@ -26,7 +26,6 @@
 
 <body>
     <header th:insert="header.html :: header"> </header>
-    <h1>Yoya la liste des salles</h1>
     <div th:if="${erreur}" th:text="${erreur}" class="error"></div>
     <table id="table" data-filter-control="true">
         <thead>
