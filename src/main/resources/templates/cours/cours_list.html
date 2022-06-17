@@ -45,7 +45,7 @@
                 <td th:text="${cours.getDateDebutString}"></td>
                 <td th:text="${cours.getDateFinString}"></td>
                 <td th:text="${cours.getNiveau.toString}"></td>
-                <td th:text="${cours.getSalle.getNom}"></td>
+                <td th:text="${cours.getSalle.getSalleCode}"></td>
                 <td><a th:href="@{/cours/{id}/edit/(id=${cours.getCoursId})}" class="btn btn-primary"><i
                             class="fas fa-user-edit ml-2"></i></a></td>
                 <td><a th:href="@{/cours/{id}/delete/(id=${cours.getCoursId})}" class="btn btn-primary"><i

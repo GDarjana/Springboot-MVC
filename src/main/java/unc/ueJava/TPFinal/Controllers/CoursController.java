@@ -60,10 +60,10 @@ public class CoursController {
     public String cours(@ModelAttribute("cours") Cours cours, Model model) {
         if (!coursService.isHoraireAndSalleOk(cours)) {
             model.addAttribute("erreur",
-                    "La salle " + cours.getSalle().getNom() + " est utilisée aux horaires entrées");
-        } else {
-            coursService.saveCours(cours);
+                    "La salle " + cours.getSalle().getSalleCode() + " est utilisée aux horaires entrées");
+            return "cours_update";
         }
+        coursService.saveCours(cours);
         model.addAttribute("liste_cours", this.coursService.getListeCours());
         return "cours_list";
     }
@@ -89,19 +89,21 @@ public class CoursController {
     @PostMapping("/cours/{id}/update")
     public String modifierSalle(@PathVariable("id") int id, @Validated Cours cours, BindingResult result,
             Model model) {
-        if (coursService.isCoursModified(coursService.getCoursById(id).get(), cours)) {
-            if (!coursService.isHoraireAndSalleOk(cours)) {
-                model.addAttribute("erreur",
-                        "La salle " + cours.getSalle().getNom() + " est utilisée aux horaires entrées");
-                model.addAttribute("liste_niveaux", niveauService.getAllNiveaux());
-                model.addAttribute("liste_salles", salleService.getAllSalles());
-                model.addAttribute("cours", cours);
-                return "cours_update";
-            } else {
-                cours.setCoursId(id);
-                coursService.saveCours(cours);
-            }
+        cours.setCoursId(id);
+        if (!coursService.isCoursModified(coursService.getCoursById(id).get(), cours)) {
+            model.addAttribute("liste_cours", this.coursService.getListeCours());
+            return "cours_list";
         }
+        if (!coursService.isHoraireAndSalleOk(cours)) {
+            model.addAttribute("erreur",
+                    "La salle " + cours.getSalle().getSalleCode() + " est utilisée aux horaires entrées");
+            model.addAttribute("liste_niveaux", niveauService.getAllNiveaux());
+            model.addAttribute("liste_salles", salleService.getAllSalles());
+            model.addAttribute("cours", cours);
+            return "cours_update";
+        }
+        
+        coursService.saveCours(cours);
         model.addAttribute("liste_cours", this.coursService.getListeCours());
         return "cours_list";
     }
