@@ -33,35 +33,15 @@
             <input type="text" id="nom_ue" class="form-control" th:field="*{nom_ue}" />
             <label class="form-label" for="nom_ue">Nom de la matière</label>
           </div>
-          <!-- Date input -->
+          <!-- Date début input -->
           <div class="form-group">
-            <label for="date">Date</label>
-            <input type="date" th:field="*{date}" id="date" />
+            <label for="date_debut">Date de début</label>
+            <input type="datetime-local" th:field="*{dateDebut}" id="date_debut" />
           </div>
-          <!-- Horaire début input -->
+          <!-- Date fin input -->
           <div class="form-group">
-            <label for="horaire_debut">Horaire début :</label>
-            <div class="input-group date" id="event_time">
-              <input type="text" id="horaire_debut" placeholder="Time" class="form-control"
-                th:field="*{horaire_debut}" />
-              <div class="input-group-addon input-group-append">
-                <div class="input-group-text">
-                  <i class="fa fa-clock-o"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- Horaire fin input -->
-          <div class="form-group">
-            <label for="horaire_fin">Horaire fin :</label>
-            <div class="input-group date" id="event_time">
-              <input type="text" id="horaire_fin" placeholder="Time" class="form-control" th:field="*{horaire_fin}" />
-              <div class="input-group-addon input-group-append">
-                <div class="input-group-text">
-                  <i class="fa fa-clock-o"></i>
-                </div>
-              </div>
-            </div>
+            <label for="date_fin">Date de fin</label>
+            <input type="datetime-local" th:field="*{dateFin}" id="date_fin" />
           </div>
           <!-- Niveau input -->
           <div class="form-group">

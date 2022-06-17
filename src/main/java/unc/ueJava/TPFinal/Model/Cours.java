@@ -7,13 +7,15 @@ import org.springframework.format.annotation.DateTimeFormat;
 import unc.ueJava.TPFinal.Model.Niveau.Niveau;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Cours")
+@Table(name = "Cours", uniqueConstraints = { @UniqueConstraint(columnNames = { "date_debut", "date_fin", "salleId" }) })
 public class Cours {
 
     @Id
@@ -23,15 +25,13 @@ public class Cours {
     @Column(name = "nom_ue")
     private String nom_ue;
 
-    @Column(name = "date")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate date;
+    @Column(name = "date_debut")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private LocalDateTime dateDebut;
 
-    @Column(name = "horaire_debut")
-    private String horaire_debut;
-
-    @Column(name = "horaire_fin")
-    private String horaire_fin;
+    @Column(name = "date_fin")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private LocalDateTime dateFin;
 
     @ManyToOne()
     @JoinColumn(name = "salleId")
@@ -47,11 +47,10 @@ public class Cours {
     public Cours() {
     }
 
-    public Cours(String nom_ue, LocalDate date, String horaire_debut, String horaire_fin, Niveau niveau) {
+    public Cours(String nom_ue, LocalDateTime dateDebut, LocalDateTime dateFin, Niveau niveau) {
         this.nom_ue = nom_ue;
-        this.date = date;
-        this.horaire_debut = horaire_debut;
-        this.horaire_fin = horaire_fin;
+        this.dateDebut = dateDebut;
+        this.dateFin = dateFin;
         this.niveau = niveau;
     }
 
@@ -71,28 +70,30 @@ public class Cours {
         return this.nom_ue;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setDateDebut(LocalDateTime dateDebut) {
+        this.dateDebut = dateDebut;
     }
 
-    public LocalDate getDate() {
-        return this.date;
+    public LocalDateTime getDateDebut() {
+        return this.dateDebut;
     }
 
-    public void setHoraire_debut(String horaire_debut) {
-        this.horaire_debut = horaire_debut;
+    public String getDateDebutString(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        return this.dateDebut.format(formatter);
     }
 
-    public String getHoraire_debut() {
-        return this.horaire_debut;
+    public void setDateFin(LocalDateTime dateFin) {
+        this.dateFin = dateFin;
     }
 
-    public void setHoraire_fin(String horaire_fin) {
-        this.horaire_fin = horaire_fin;
+    public LocalDateTime getDateFin() {
+        return this.dateFin;
     }
 
-    public String getHoraire_fin() {
-        return this.horaire_fin;
+    public String getDateFinString(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        return this.dateFin.format(formatter);
     }
 
     public void addEleve(Eleve eleve) {

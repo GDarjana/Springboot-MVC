@@ -21,10 +21,10 @@
     <thead>
         <tr>      
           <th data-field="nom_ue" data-filter-control="input">Nom de l'UE</th>
-          <th data-field="date" data-filter-control="input" >Date</th>
-          <th data-field="horaire_debut" data-filter-control="input" >Heure début</th>
-          <th data-field="horaire_fin" data-filter-control="input" >Heure fin</th>
+          <th data-field="dateDebut" data-filter-control="input" >Date de début</th>
+          <th data-field="dateFin" data-filter-control="input" >Date de fin</th>
           <th data-field="niveau" data-filter-control="input" >Niveau</th>
+          <th data-field="salle" data-filter-control="input" >Salle</th>
           <th>Modifier</th>
           <th>Supprimer</th>
         </tr>
@@ -32,10 +32,10 @@
         <tbody>
             <tr th:each="cours :${liste_cours}">
                 <td th:text="${cours.getNom_ue}"></td>
-                <td th:text="${cours.getDate}"></td>
-                <td th:text="${cours.getHoraire_debut}"></td>
-                <td th:text="${cours.getHoraire_fin}"></td>
+                <td th:text="${cours.getDateDebutString}"></td>
+                <td th:text="${cours.getDateFinString}"></td>
                 <td th:text="${cours.getNiveau.toString}"></td>
+                <td th:text="${cours.getSalle.getNom}"></td>
                 <td><a th:href="@{/cours/{id}/edit/(id=${cours.getCoursId})}" class="btn btn-primary"><i
                     class="fas fa-user-edit ml-2"></i></a></td>
                 <td><a th:href="@{/cours/{id}/delete/(id=${cours.getCoursId})}" class="btn btn-primary"><i
