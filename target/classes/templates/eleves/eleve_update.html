@@ -52,10 +52,14 @@
                         <th:block th:each="cours : ${liste_cours}">
                             <tr>
                                 <strong th:text="${cours.getNom_ue}"></strong>
-                                <td th:text="' Début : ' + ${cours.getDebut} + ' Fin : ' + ${cours.getFin}"></td>
+                                <td
+                                    th:text="' Début : ' + ${cours.getHoraire_debut} + ' Fin : ' + ${cours.getHoraire_fin}">
+                                </td>
                             </tr>
                         </th:block>
                     </table>
+                    <a th:href="@{/eleves/{numeroEtudiant}/cours/edit(numeroEtudiant=${eleve.getNumeroEtudiant})}"
+                        class="btn btn-primary">Modifier ses cours</a>
                     </p>
                     <div class="form-group">
                         <div class="row">
