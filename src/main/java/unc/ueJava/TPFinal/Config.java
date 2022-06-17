@@ -5,7 +5,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.Properties;
 
 import javax.persistence.EntityManagerFactory;
@@ -21,7 +24,13 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
+import unc.ueJava.TPFinal.DAO.CoursRepository;
+import unc.ueJava.TPFinal.DAO.EleveRepository;
 import unc.ueJava.TPFinal.DAO.NiveauRepository;
+import unc.ueJava.TPFinal.DAO.SalleRepository;
+import unc.ueJava.TPFinal.Model.Cours;
+import unc.ueJava.TPFinal.Model.Eleve;
+import unc.ueJava.TPFinal.Model.Salle;
 import unc.ueJava.TPFinal.Model.Niveau.CodeEnum;
 import unc.ueJava.TPFinal.Model.Niveau.LibelleEnum;
 import unc.ueJava.TPFinal.Model.Niveau.Niveau;
@@ -144,13 +153,48 @@ public class Config {
     }
 
     @Bean
-    public CommandLineRunner loadData(NiveauRepository niveauRepository) {
+    public CommandLineRunner loadData(NiveauRepository niveauRepository, SalleRepository salleRepository, CoursRepository coursRepository, EleveRepository eleveRepository) {
         return (args) -> {
 
             Arrays.asList(CodeEnum.values()).forEach(code -> {
                 Arrays.asList(LibelleEnum.values())
                         .forEach(libelle -> niveauRepository.save(new Niveau(code, libelle)));
             });
+
+            Optional<Niveau> l1Info = niveauRepository.findById(1);
+            Optional<Niveau> l2Info = niveauRepository.findById(5);
+            Optional<Niveau> l3Info = niveauRepository.findById(9);
+            Optional<Niveau> l2Math = niveauRepository.findById(6);
+
+            Salle f1 = new Salle("F1", "Salle informatique 1", 20);
+            Salle f2 = new Salle("F2", "Salle informatique 2", 30);
+            Salle f3 = new Salle("F3", "Salle de cours 1", 30);
+            Salle f4 = new Salle("F4", "Salle de cours 2", 40);
+
+            salleRepository.save(f1);
+            salleRepository.save(f2);
+            salleRepository.save(f3);
+            salleRepository.save(f4);
+
+            Cours decidabilite = new Cours("Décidabilité", LocalDateTime.of(2022, Month.AUGUST, 15, 10, 00), LocalDateTime.of(2022, Month.AUGUST, 15, 12, 00), l3Info.get(), f3);
+            Cours java = new Cours("Java", LocalDateTime.of(2022, Month.AUGUST, 15, 16, 30), LocalDateTime.of(2022, Month.AUGUST, 15, 18, 30), l2Info.get(), f2);
+            Cours algoProg = new Cours("Algorithme et programmation", LocalDateTime.of(2022, Month.AUGUST, 17, 7, 45), LocalDateTime.of(2022, Month.AUGUST, 17, 9, 45), l1Info.get(), f2);
+            Cours algebre = new Cours("Algèbre linéaire", LocalDateTime.of(2022, Month.AUGUST, 18, 13, 30), LocalDateTime.of(2022, Month.AUGUST, 18, 15, 30), l2Math.get(), f4);
+
+            coursRepository.save(decidabilite);
+            coursRepository.save(java);
+            coursRepository.save(algoProg);
+            coursRepository.save(algebre);
+
+            Eleve jean = new Eleve("Martin", "Jean", 21, "8 rue Miyamura", l2Math.get());
+            Eleve eren = new Eleve("Jaeger", "Eren", 18, "4 rue Clémenceau", l1Info.get());
+            Eleve charles = new Eleve("Oliveira", "Charles", 22, "20 rue Martin", l3Info.get());
+            Eleve lily = new Eleve("Kim", "Lily", 21, "2 avenue de France", l2Info.get());
+
+            eleveRepository.save(jean);
+            eleveRepository.save(eren);
+            eleveRepository.save(charles);
+            eleveRepository.save(lily);
         };
     }
 

@@ -48,11 +48,12 @@ public class Cours {
     public Cours() {
     }
 
-    public Cours(String nom_ue, LocalDateTime dateDebut, LocalDateTime dateFin, Niveau niveau) {
+    public Cours(String nom_ue, LocalDateTime dateDebut, LocalDateTime dateFin, Niveau niveau, Salle salle) {
         this.nom_ue = nom_ue;
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
         this.niveau = niveau;
+        this.salle = salle;
     }
 
     public int getCoursId() {
