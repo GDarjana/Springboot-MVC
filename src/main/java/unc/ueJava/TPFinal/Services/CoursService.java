@@ -1,5 +1,6 @@
 package unc.ueJava.TPFinal.Services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,10 @@ public class CoursService {
 
     public void deleteCours(Cours cours) {
         this.coursRepository.delete(cours);
+    }
+
+    public List<Cours> getAllCoursByNiveauId(int niveauId) {
+        return this.coursRepository.findAllByNiveauId(niveauId);
     }
 
     public boolean isHoraireAndSalleOk(Cours cours) {
