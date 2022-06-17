@@ -54,8 +54,12 @@ public class CoursController {
      * Page liste des élèves après avoir ajouter un nouveau cours
      */
     @PostMapping("/cours")
-    public String cours(@ModelAttribute("cours") Cours cours) {
-        coursService.save(cours);
+    public String cours(@ModelAttribute("cours") Cours cours, Model model) {
+        if(coursService.findByDateDebutLessThanEqualAndDateFinGreaterThanEqualAndSalle(cours.getDateFin(), cours.getDateDebut(), cours.getSalle()).isPresent()){
+            model.addAttribute("erreur", "La salle " + cours.getSalle() + " est utilisée aux horaires entrées");
+        } else {
+            coursService.save(cours);
+        }
         return "redirect:/cours";
     }
 
