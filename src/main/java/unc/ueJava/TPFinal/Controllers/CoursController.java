@@ -92,10 +92,10 @@ public class CoursController {
     @PostMapping("/cours/{id}/update")
     public String modifierSalle(@PathVariable("id") int id, @Validated Cours cours, BindingResult result,
             Model model) {
-        if (!coursService.isCoursModified(coursService.getCoursById(id).get(), cours)) {
+        /*if (!coursService.isCoursModified(coursService.getCoursById(id).get(), cours)) {
             model.addAttribute("liste_cours", this.coursService.getListeCours());
             return "cours_list";
-        }
+        }*/
         if (!coursService.isHoraireAndSalleOk(cours)) {
             model.addAttribute("erreur",
                     "La salle " + cours.getSalle().getSalleCode() + " est utilisée aux horaires entrées");

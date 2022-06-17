@@ -131,4 +131,26 @@ public class Cours {
         return this.nom_ue + " " + this.getDateDebutString() + " " + this.getDateFinString();
     }
 
+    public boolean equals(Cours cours){
+        if(this.coursId != cours.coursId){
+            return false;
+        }
+        if(this.nom_ue != cours.nom_ue){
+            return false;
+        }
+        if(this.dateDebut != cours.dateDebut){
+            return false;
+        }
+        if(this.dateFin != cours.dateFin){
+            return false;
+        }
+        if(this.niveau != cours.niveau){
+            return false;
+        }
+        if(this.eleves != cours.eleves){
+            return false;
+        }
+        return true;
+    }
+
 }
