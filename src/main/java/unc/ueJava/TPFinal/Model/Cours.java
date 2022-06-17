@@ -121,4 +121,8 @@ public class Cours {
         this.salle = salle;
     }
 
+    public String toString() {
+        return this.nom_ue + " " + this.getDateDebutString() + " " + this.getDateFinString();
+    }
+
 }

@@ -82,16 +82,6 @@ public class Salle {
         this.listeCours = listeCours;
     }
 
-    public void addComment(Cours cours) {
-        listeCours.add(cours);
-        cours.setSalle(this);
-    }
-
-    public void removeComment(Cours cours) {
-        listeCours.remove(cours);
-        cours.setSalle(null);
-    }
-
     public boolean isEmpty() {
         return listeCours.isEmpty();
     }

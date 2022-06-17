@@ -125,11 +125,24 @@ public class ElevesController {
             Model model) {
         Optional<Eleve> eleve = eleveService.getEleve(numeroEtudiant);
         Optional<Cours> coursToAdd = coursService.findById(cours_id);
-        eleve.get().addCours(coursToAdd.get());
-        eleveService.saveEleve(eleve.get());
         // A faire les vérifications
+        if (coursToAdd.get().getEleves().size() + 1 <= coursToAdd.get().getSalle().getCapacite()) {
+            coursToAdd.get().addEleve(eleve.get());
+            eleve.get().addCours(coursToAdd.get());
+            eleveService.saveEleve(eleve.get());
+            coursService.save(coursToAdd.get());
+        } else {
+            System.out.println("ERREUR");
+            model.addAttribute("erreur", "Le cours " + coursToAdd.get().toString() + " a atteint sa capacité maximale");
+        }
+        List<Cours> cours_disponibles = coursService.findAllByNiveauId(eleve.get().getNiveau().getId());
+        cours_disponibles.removeAll(eleve.get().getCours());
+        model.addAttribute("eleve", eleve.get());
+        model.addAttribute("cours_disponibles", cours_disponibles);
+        model.addAttribute("cours_inscrits", eleve.get().getCours());
 
-        return "redirect:/eleves/" + numeroEtudiant + "/cours/edit";
+        return "eleve_cours";
+
     }
 
     @GetMapping("/eleves/{numeroEtudiant}/cours/{id}/delete")
