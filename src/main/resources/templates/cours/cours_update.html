@@ -25,7 +25,7 @@
       <h1>Formulaire de modification d'un cours</h1>
     </div>
     <hr />
-    <div th:if="${erreur}" th:text="${erreur}" class="error"></div>
+    <div style="color:red" th:if="${erreur}" th:text="${erreur}" class="error"></div>
     <div class="row justify-content-center align-items-center h-100">
       <div class="col col-sm-6 col-md-6 col-lg-4 col-xl-3">
         <form action="#" th:action="@{/cours/{id}/update(id=${cours.getCoursId})}" th:object="${cours}" method="post">
