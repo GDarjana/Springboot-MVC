@@ -29,6 +29,9 @@ public class CoursController {
     @Autowired
     private SalleService salleService;
 
+    /*
+     * Page d'affichage de la liste des cours
+     */
     @GetMapping("/cours")
     public String cours(Model model) {
         Iterable<Cours> liste_cours = coursService.getListeCours();
@@ -37,7 +40,7 @@ public class CoursController {
     }
 
     /**
-     * Page d'ajout
+     * Page d'ajout d'un cours
      * 
      * @return
      */
@@ -64,6 +67,9 @@ public class CoursController {
         return "cours_list";
     }
 
+    /*
+     * Page de modification d'un cours existant
+     */
     @GetMapping("/cours/{id}/edit")
     public String modifierCours(@PathVariable("id") int id, Model model) {
         Optional<Cours> cours = coursService.getCoursById(id);
@@ -76,6 +82,9 @@ public class CoursController {
         return "redirect:/cours";
     }
 
+    /*
+     * Page de la liste des cours après modification d'un cours
+     */
     @PostMapping("/cours/{id}/update")
     public String modifierSalle(@PathVariable("id") int id, @Validated Cours cours, BindingResult result,
             Model model) {
@@ -85,6 +94,9 @@ public class CoursController {
         return "cours_list";
     }
 
+    /*
+     * Page de la liste des cours après suppression d'un cours
+     */
     @GetMapping("/cours/{id}/delete")
     public String deleteStudent(@PathVariable("id") int id, Model model) {
         Optional<Cours> cours = this.coursService.getCoursById(id);

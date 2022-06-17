@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import unc.ueJava.TPFinal.DAO.CoursRepository;
-import unc.ueJava.TPFinal.DAO.NiveauRepository;
 import unc.ueJava.TPFinal.Model.Cours;
 import unc.ueJava.TPFinal.Model.Eleve;
+import unc.ueJava.TPFinal.Services.CoursService;
 import unc.ueJava.TPFinal.Services.EleveService;
+import unc.ueJava.TPFinal.Services.NiveauService;
 
 @Controller
 public class ElevesController {
@@ -26,11 +26,14 @@ public class ElevesController {
     private EleveService eleveService;
 
     @Autowired
-    private NiveauRepository niveauService;
+    private NiveauService niveauService;
 
     @Autowired
-    private CoursRepository coursService;
+    private CoursService coursService;
 
+    /*
+     * Page d'affichage de la liste des élèves
+     */
     @GetMapping("/eleves")
     public String eleves(Model model) {
         Iterable<Eleve> liste_eleves = eleveService.getAllEleves();
@@ -39,7 +42,7 @@ public class ElevesController {
     }
 
     /**
-     * Page d'ajout
+     * Page d'ajout d'un élève
      * 
      * @return
      */
@@ -47,7 +50,7 @@ public class ElevesController {
     public String ajouterEleve(Model model) {
         Eleve eleve = new Eleve();
         model.addAttribute("eleve", eleve);
-        model.addAttribute("liste_niveaux", niveauService.findAll());
+        model.addAttribute("liste_niveaux", niveauService.getAllNiveaux());
         return "eleve_form";
     }
 
@@ -69,7 +72,7 @@ public class ElevesController {
         if (eleve.isPresent()) {
             model.addAttribute("eleve", eleve.get());
             model.addAttribute("liste_cours", eleve.get().getCours());
-            model.addAttribute("liste_niveaux", niveauService.findAll());
+            model.addAttribute("liste_niveaux", niveauService.getAllNiveaux());
             return "eleve_update";
         }
         return "redirect:/eleves";
@@ -96,7 +99,7 @@ public class ElevesController {
      * @return
      */
     @GetMapping("/eleves/{numeroEtudiant}/delete")
-    public String supprimerEtudiant(@PathVariable("numeroEtudiant") int numeroEtudiant, Model model) {
+    public String supprimerEleve(@PathVariable("numeroEtudiant") int numeroEtudiant, Model model) {
         this.eleveService.delEleve(numeroEtudiant);
         model.addAttribute("liste_eleves", this.eleveService.getAllEleves());
         return "eleves_list";
@@ -106,10 +109,9 @@ public class ElevesController {
      * Page des cours de l'élève
      */
     @GetMapping("/eleves/{numeroEtudiant}/cours/edit")
-    public String coursEtudiant(@PathVariable("numeroEtudiant") int numeroEtudiant, Model model) {
-        // Récupère l'éleve
+    public String coursEleve(@PathVariable("numeroEtudiant") int numeroEtudiant, Model model) {
         Optional<Eleve> eleve = eleveService.getEleve(numeroEtudiant);
-        List<Cours> cours_disponibles = coursService.findAllByNiveauId(eleve.get().getNiveau().getId());
+        List<Cours> cours_disponibles = coursService.getAllCoursByNiveauId(eleve.get().getNiveau().getId());
         cours_disponibles.removeAll(eleve.get().getCours());
         model.addAttribute("eleve", eleve.get());
         model.addAttribute("cours_disponibles", cours_disponibles);
@@ -124,22 +126,21 @@ public class ElevesController {
     public String ajouterCours(@PathVariable("numeroEtudiant") int numeroEtudiant, @PathVariable("id") int cours_id,
             Model model) {
         Optional<Eleve> eleve = eleveService.getEleve(numeroEtudiant);
-        Optional<Cours> coursToAdd = coursService.findById(cours_id);
-        // A faire les vérifications
+        Optional<Cours> coursToAdd = coursService.getCoursById(cours_id);
         if (coursToAdd.get().getEleves().size() + 1 > coursToAdd.get().getSalle().getCapacite()) {
             System.out.println("Liste des élèves dans le cours : " + coursToAdd.get().getEleves());
             model.addAttribute("erreur", "Le cours " + coursToAdd.get().toString() + " a atteint sa capacité maximale");
-            List<Cours> cours_disponibles = coursService.findAllByNiveauId(eleve.get().getNiveau().getId());
+            List<Cours> cours_disponibles = coursService.getAllCoursByNiveauId(eleve.get().getNiveau().getId());
             cours_disponibles.removeAll(eleve.get().getCours());
             model.addAttribute("eleve", eleve.get());
             model.addAttribute("cours_disponibles", cours_disponibles);
             model.addAttribute("cours_inscrits", eleve.get().getCours());
             return "eleve_cours";
         }
-        if (!eleve.get().isNewCoursOk(coursToAdd.get())){
+        if (!eleve.get().isNewCoursOk(coursToAdd.get())) {
             System.out.println("Liste des élèves dans le cours : " + coursToAdd.get().getEleves());
             model.addAttribute("erreur", "l'élève a un déjà cours à ces horaires");
-            List<Cours> cours_disponibles = coursService.findAllByNiveauId(eleve.get().getNiveau().getId());
+            List<Cours> cours_disponibles = coursService.getAllCoursByNiveauId(eleve.get().getNiveau().getId());
             cours_disponibles.removeAll(eleve.get().getCours());
             model.addAttribute("eleve", eleve.get());
             model.addAttribute("cours_disponibles", cours_disponibles);
@@ -149,9 +150,9 @@ public class ElevesController {
         coursToAdd.get().addEleve(eleve.get());
         eleve.get().addCours(coursToAdd.get());
         eleveService.saveEleve(eleve.get());
-        coursService.save(coursToAdd.get());
+        coursService.saveCours(coursToAdd.get());
         System.out.println("Liste des élèves dans le cours : " + coursToAdd.get().getEleves());
-        List<Cours> cours_disponibles = coursService.findAllByNiveauId(eleve.get().getNiveau().getId());
+        List<Cours> cours_disponibles = coursService.getAllCoursByNiveauId(eleve.get().getNiveau().getId());
         cours_disponibles.removeAll(eleve.get().getCours());
         model.addAttribute("eleve", eleve.get());
         model.addAttribute("cours_disponibles", cours_disponibles);
@@ -161,11 +162,14 @@ public class ElevesController {
 
     }
 
+    /*
+     * Suppresion d'un cours d'un eleve
+     */
     @GetMapping("/eleves/{numeroEtudiant}/cours/{id}/delete")
     public String supprimerCours(@PathVariable("numeroEtudiant") int numeroEtudiant, @PathVariable("id") int cours_id,
             Model model) {
         Optional<Eleve> eleve = eleveService.getEleve(numeroEtudiant);
-        Optional<Cours> coursToDelete = coursService.findById(cours_id);
+        Optional<Cours> coursToDelete = coursService.getCoursById(cours_id);
         eleve.get().removeCours(coursToDelete.get());
         eleveService.saveEleve(eleve.get());
         return "redirect:/eleves/" + numeroEtudiant + "/cours/edit";
